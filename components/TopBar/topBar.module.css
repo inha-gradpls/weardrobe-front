@@ -1,4 +1,7 @@
 .container {
+  background-color: var(--background);
+  position: sticky;
+  top: 0;
   height: 55px;
   display: flex;
   flex-direction: row;
@@ -12,7 +15,6 @@
   flex-direction: row;
   align-items: center;
   flex: 1;
-  background-color: red;
 }
 
 .actions {
@@ -20,5 +22,4 @@
   flex-direction: row;
   align-items: center;
   flex: 0;
-  background-color: blue;
 }
