@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 93px;
+  gap: 8px;
+  max-width: 500px;
+  background-color: var(--background);
+  padding: 8px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.thumb {
+  border-radius: 10px;
+  background-color: var(--disabled);
+}
+
+.content {
+  justify-content: center;
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 15px;
+}
+
+.category {
+  color: var(--foreground-light);
+  font-size: 12px;
+}
+
+.price {
+  font-size: 13px;
+}
+
+.statisticContainer {
+  font-size: 13px;
+  height: 13px;
+  color: var(--accent);
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 15px !important;
+}
