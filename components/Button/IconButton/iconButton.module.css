@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+  background-color: var(--background);
+  border-radius: 5px;
+  gap: 5px;
+}
+
+.icon {
+}
