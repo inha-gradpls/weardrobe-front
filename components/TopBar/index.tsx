@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router';
+'use client';
 import styles from './topBar.module.css';
 import IconButton from '../Button/IconButton';
 import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface TopBarProps {
   backButton: boolean;
-  children?: ReactNode[];
-  actions?: ReactNode[];
+  children?: ReactNode;
+  actions?: ReactNode;
 }
 
 export default function TopBar({ backButton, actions, children }: TopBarProps) {
