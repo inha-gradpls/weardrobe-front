@@ -10,7 +10,7 @@ interface IconButtonProps {
 
 export default function IconButton({ label, icon, onClick }: IconButtonProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       {icon === undefined ? undefined : (
         <span className={`material-symbols-outlined ${styles.icon}`}>{icon}</span>
       )}
