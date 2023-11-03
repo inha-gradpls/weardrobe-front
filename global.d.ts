@@ -1,18 +1,18 @@
 interface Product {
   id: number;
-  seller_id: number;
-  buyer_id: number;
-  category_id: number;
-  brand_id: number;
+  sellerId: number;
+  buyerId: number;
+  categoryId: number;
+  brandId: number;
   name: string;
   price: number;
-  delivery_available: boolean;
-  purchase_date: string;
-  product_image: string;
+  deliveryAvailable: boolean;
+  purchaseDate: string;
+  productImage: string;
   description: string;
-  product_status: string;
-  view_count: number;
-  created_at: string;
+  productStatus: string;
+  viewCount: number;
+  createdAt: string;
 }
 
 type HomeFeedResponse = Product[];
