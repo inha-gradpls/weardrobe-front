@@ -34,3 +34,5 @@ interface FilterResponse {
   categoryFilter: CategoryFilter[];
   brandFilter: BrandFilter[];
 }
+
+type ProductOrder = 'createdDate' | 'price' | 'viewCount';
