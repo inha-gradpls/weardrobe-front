@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import styles from './productCard.module.css';
 import { BLUR_URL } from '@/utils/api';
+import { useRouter } from 'next/navigation';
 interface ProductCardProps {
   id: number;
   img?: string;
@@ -11,6 +12,7 @@ interface ProductCardProps {
   viewCount: number;
   likeCount: number;
   commentCount: number;
+  onClick?: () => void;
 }
 export default function ProductCard({
   id,
@@ -21,9 +23,10 @@ export default function ProductCard({
   viewCount,
   likeCount,
   commentCount,
+  onClick,
 }: ProductCardProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <Image
         className={styles.thumb}
         src={img ?? BLUR_URL}
