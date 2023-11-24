@@ -36,3 +36,17 @@ interface FilterResponse {
 }
 
 type ProductOrder = 'createdDate' | 'price' | 'viewCount';
+
+interface UserInfo {
+  id: number;
+  name: string;
+  nickname: string;
+  imageUrl: string;
+  age: number;
+  gender: string;
+  createdDate: string;
+  phoneNumber: string;
+  reliableScore: number;
+}
+
+type UserInfoResponse = UserInfo;
