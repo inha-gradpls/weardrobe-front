@@ -351,3 +351,20 @@ export async function kakaoLoginCallback(
   // redirect(true) if no refresh
   return refresh === undefined;
 }
+
+// fetches user info
+export async function getUserInfo(): Promise<UserInfoResponse> {
+  // return (await httpGet(`${API_BASE_URL}/users/my/profile`)).json();
+
+  return {
+    id: 1,
+    name: 'asdf',
+    nickname: 'asdf',
+    imageUrl: 'example.jpg',
+    age: 20,
+    gender: 'FEMALE',
+    createdDate: '2023-11-15',
+    phoneNumber: '01000000000',
+    reliableScore: 0.0,
+  };
+}
