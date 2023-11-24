@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import NavigationBar from '@/components/NavigationBar';
+import OverlayWrapper from './components/OverlayWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html>
       <body className={inter.className}>
+        <OverlayWrapper />
         <div className="container">
           <div className="content">{children}</div>
           <NavigationBar pages={['HOME', 'WARDROBE', 'MYPAGE']} />
