@@ -368,3 +368,27 @@ export async function getUserInfo(): Promise<UserInfoResponse> {
     reliableScore: 0.0,
   };
 }
+
+// gets product info
+export async function getProductInfo(productId: number): Promise<ProductInfoResponse | undefined> {
+  if (productId < 0) return undefined;
+  // return (await httpGet(`${API_BASE_URL}/products/${productId}`)).json();
+  return {
+    id: 2,
+    name: '나이키 맨투맨',
+    price: 10000,
+    sellerId: 1,
+    sellerNickname: 'asdf',
+    categoryParentName: '상의',
+    categoryName: '맨투맨',
+    brandName: '나이키',
+    deliveryAvailable: true,
+    productImage: '/images/52bde76c-719f-40cc-8b92-c0c1050faf49.jpg',
+    description: 'adsfadsfadfsadsffads',
+    status: 'SELL',
+    createDate: '2023-11-15T03:13:56.468592',
+    viewCount: 4,
+    heartCount: 1,
+    commentCount: 0,
+  };
+}
