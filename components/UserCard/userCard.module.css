@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.photo {
+  width: 26px;
+  height: 26px;
+  overflow: hidden;
+  border-radius: 50%;
+}

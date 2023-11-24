@@ -16,7 +16,9 @@ export default function TopBar({ backButton, actions, children, footer }: TopBar
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        {backButton ? <IconButton onClick={() => router.back()} icon="arrow_back" /> : undefined}
+        {backButton ? (
+          <IconButton style="transparent" onClick={() => router.back()} icon="arrow_back" />
+        ) : undefined}
         <div className={styles.content}>{children}</div>
         <div className={styles.actions}>{actions}</div>
       </div>

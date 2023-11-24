@@ -36,3 +36,38 @@ interface FilterResponse {
 }
 
 type ProductOrder = 'createdDate' | 'price' | 'viewCount';
+
+interface UserInfo {
+  id: number;
+  name?: string;
+  nickname: string;
+  imageUrl: string;
+  age?: number;
+  gender?: string;
+  createdDate?: string;
+  phoneNumber?: string;
+  reliableScore: number;
+}
+
+type UserInfoResponse = UserInfo;
+
+interface ProductInfo {
+  id: number;
+  name: string;
+  price: number;
+  sellerId: number;
+  sellerNickname: string;
+  categoryParentName: string;
+  categoryName: string;
+  brandName: string;
+  deliveryAvailable: boolean;
+  productImage: string;
+  description: string;
+  status: 'SELL' | 'BUY';
+  createDate: string;
+  viewCount: number;
+  heartCount: number;
+  commentCount: number;
+}
+
+type ProductInfoResponse = ProductInfo;

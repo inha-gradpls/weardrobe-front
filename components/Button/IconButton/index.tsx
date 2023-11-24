@@ -2,7 +2,7 @@
 import styles from './iconButton.module.css';
 import 'material-symbols';
 
-type StyleTypes = 'primary' | 'secondary' | 'none';
+type StyleTypes = 'primary' | 'secondary' | 'none' | 'transparent';
 
 interface IconButtonProps {
   label?: string;
@@ -30,5 +30,7 @@ function getClassName(style: StyleTypes) {
       return styles.secondary;
     case 'none':
       return '';
+    case 'transparent':
+      return styles.transparent;
   }
 }

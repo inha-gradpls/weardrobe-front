@@ -19,5 +19,9 @@
   background-color: var(--accent-light);
 }
 
+.transparent {
+  background-color: transparent;
+}
+
 .icon {
 }
