@@ -5,6 +5,7 @@
   --foreground: black;
   --foreground-light: #666666;
   --diabled: #f1f1f1;
+  --background-back: #f6f6f6;
   --empty: #d9d9d9;
   --background: #ffffff;
 }
@@ -33,6 +34,15 @@ a {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  overflow-y: hidden;
+  background: var(--background-back);
+}
+
+.innerContent {
+  flex-grow: 1;
+  height: 100%;
   overflow-y: auto;
 }

@@ -24,7 +24,7 @@ export default function Home() {
       <TopBar backButton={false} footer={<OrderSelection order={order} setOrder={setOrder} />}>
         <h3>메인화면</h3>
       </TopBar>
-      <div className={styles.container}>
+      <div className="innerContent">
         <div className={styles.products}>
           {products.map((v) => (
             <ProductCard
