@@ -387,7 +387,7 @@ export async function getProductInfo(productId: number): Promise<ProductInfoResp
     id: 2,
     name: '나이키 맨투맨',
     price: 10000,
-    sellerId: 1,
+    sellerId: productId % 2,
     sellerNickname: 'asdf',
     categoryParentName: '상의',
     categoryName: '맨투맨',
