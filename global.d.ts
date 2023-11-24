@@ -39,13 +39,13 @@ type ProductOrder = 'createdDate' | 'price' | 'viewCount';
 
 interface UserInfo {
   id: number;
-  name: string;
+  name?: string;
   nickname: string;
   imageUrl: string;
-  age: number;
-  gender: string;
-  createdDate: string;
-  phoneNumber: string;
+  age?: number;
+  gender?: string;
+  createdDate?: string;
+  phoneNumber?: string;
   reliableScore: number;
 }
 
