@@ -1,4 +1,5 @@
 import { getUserInfo } from '@/utils/api';
+import { userInfo } from 'os';
 import { create } from 'zustand';
 
 interface UserState {
@@ -9,7 +10,7 @@ interface UserState {
 
 interface UserActions {
   reset: () => void;
-  fetch: () => void;
+  setUserInfo: (userInfo: UserInfo) => void;
 }
 
 const initialState: UserState = {
@@ -21,9 +22,5 @@ const initialState: UserState = {
 export const useUser = create<UserState & UserActions>((set) => ({
   ...initialState,
   reset: () => set(initialState),
-  fetch: async () => {
-    const res = await getUserInfo();
-    if (res === undefined) return;
-    set({ userInfo: res });
-  },
+  setUserInfo: (userInfo) => set({ userInfo }),
 }));
