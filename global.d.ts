@@ -71,3 +71,10 @@ interface ProductInfo {
 }
 
 type ProductInfoResponse = ProductInfo;
+
+interface SearchHistoryItem {
+  id: number;
+  word: string;
+}
+
+type SearchHistoryResponse = SearchHistoryItem[];
