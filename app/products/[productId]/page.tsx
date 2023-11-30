@@ -97,8 +97,8 @@ function UserActions({ isSeller }: UserActionsProps) {
   if (!isSeller) return <></>;
   return (
     <>
-      <IconButton onClick={() => {}} icon="edit" style="transparent" />
-      <IconButton onClick={() => {}} icon="delete" style="transparent" />
+      <IconButton onClick={() => {}} icon="edit" styleType="transparent" />
+      <IconButton onClick={() => {}} icon="delete" styleType="transparent" />
     </>
   );
 }
@@ -117,7 +117,7 @@ function BottomBar({ isSeller, productId, price }: BottomBarProps) {
       <IconButton
         onClick={() => {}}
         label={isSeller ? '댓글 목록' : '댓글 달기'}
-        style="secondary"
+        styleType="secondary"
       />
     </div>
   );
