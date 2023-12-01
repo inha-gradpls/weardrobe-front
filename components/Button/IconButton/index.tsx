@@ -1,5 +1,5 @@
 'use client';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, MouseEventHandler } from 'react';
 import styles from './iconButton.module.css';
 import 'material-symbols';
 
@@ -9,7 +9,7 @@ interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   label?: string;
   icon?: string;
   styleType?: StyleTypes;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: 'submit';
 }
 
