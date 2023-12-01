@@ -2,30 +2,41 @@
 import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
 import Image from 'next/image';
-import { getWardrobeData } from '@/utils/api';
+import { generateViton, getWardrobeData } from '@/utils/api';
 import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
 
 export default function WardrobePage() {
   const [data, setData] = useState<WardrobeData>();
-  const [types, setTypes] = useState<string[]>([]);
 
-  const [user, setUser] = useState<string>();
-  const [cloth, setCloth] = useState<string>();
+  const [user, setUser] = useState<number>();
+  const [cloth, setCloth] = useState<number>();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [result, setResult] = useState<string>();
 
   useEffect(() => {
     (async () => {
       const res = await getWardrobeData();
       if (res === undefined) return;
       setData(res);
-      // find types
-      const newTypes = new Set<string>();
-      for (const c of res.wardrobeCloth) {
-        newTypes.add(c.category);
-      }
-      setTypes(Array.from(newTypes));
     })();
   }, []);
+
+  const generateResult = async () => {
+    if (user === undefined || cloth === undefined) {
+      setLoading(false);
+      return;
+    }
+    const res = await generateViton({
+      wardrobeUserId: user,
+      favoriteProductId: cloth,
+    });
+    if (res === undefined) return;
+    setResult(res.vitonImage);
+    setLoading(false);
+  };
+
   return (
     <>
       <TopBar backButton={false}>
@@ -46,6 +57,7 @@ export default function WardrobePage() {
                 objectFit: 'contain',
               }}
             />
+            {loading && <p className={styles.name}>로드중</p>}
           </div>
           <form className={styles.carouselContainer}>
             <Carousel
@@ -54,25 +66,23 @@ export default function WardrobePage() {
               category="사람"
               items={data.wardrobeUser}
             />
-            {types.map((v) => {
-              return (
-                <Carousel
-                  selected={cloth}
-                  setSelected={setCloth}
-                  key={v}
-                  category={v}
-                  items={data.wardrobeCloth.filter((d) => d.category === v)}
-                />
-              );
-            })}
+            <Carousel
+              wrap={true}
+              selected={cloth}
+              setSelected={setCloth}
+              category="찜한 상품"
+              items={data.favoriteProduct}
+            />
           </form>
           <div className={styles.bottom}>
             <IconButton
               label="이미지 생성"
-              styleType="primary"
+              styleType={loading ? 'none' : 'primary'}
               icon="auto_awesome"
               onClick={() => {
-                //todo: implement this
+                if (loading) return;
+                setLoading(true);
+                generateResult();
               }}
             />
           </div>
@@ -85,23 +95,25 @@ export default function WardrobePage() {
 interface CarouselProps {
   category: string;
   items: UserItem[] | ClothItem[];
-  selected: string | undefined;
-  setSelected: Dispatch<SetStateAction<string | undefined>>;
+  selected: number | undefined;
+  wrap?: boolean;
+  setSelected: Dispatch<SetStateAction<number | undefined>>;
 }
 
-function Carousel({ selected, setSelected, category, items }: CarouselProps) {
+function Carousel({ selected, setSelected, category, items, wrap = false }: CarouselProps) {
   return (
     <div className={styles.carousel}>
       <p>{category}</p>
-      <div className={styles.carouselItems}>
+      <div className={`${styles.carouselItems} ${wrap && styles.wrap}`}>
         {items.map((v) => {
           const image = getImageFromItem(v);
           return (
             <CarouselItem
               key={v.id}
               image={image}
-              onClick={() => setSelected(image)}
-              selected={image === selected}
+              name={(v as ClothItem).name}
+              onClick={() => setSelected(v.id)}
+              selected={v.id === selected}
             />
           );
         })}
@@ -111,18 +123,20 @@ function Carousel({ selected, setSelected, category, items }: CarouselProps) {
 }
 
 interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
+  name?: string;
   image: string;
   selected: boolean;
 }
 
-function CarouselItem({ image, selected, ...props }: CarouselItemProps) {
+function CarouselItem({ image, selected, name, ...props }: CarouselItemProps) {
   return (
     <div className={`${styles.carouselItem} ${selected && styles.selected}`} {...props}>
       <Image src={image} alt={''} width={100} height={100} style={{ objectFit: 'fill' }} />
+      {name && <p className={styles.name}>{name}</p>}
     </div>
   );
 }
 
 function getImageFromItem(item: UserItem | ClothItem) {
-  return (item as UserItem).wardrobeUserImage || (item as ClothItem).wardrobeClothImage;
+  return (item as UserItem).userImage || (item as ClothItem).productImage;
 }
