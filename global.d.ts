@@ -83,18 +83,27 @@ type SearchResultResponse = ProductInfo[];
 
 interface WardrobeData {
   wardrobeUser: UserItem[];
-  wardrobeCloth: ClothItem[];
+  favoriteProduct: ClothItem[];
 }
 
 type WardrobeDataResponse = WardrobeData;
 
 interface UserItem {
   id: number;
-  wardrobeUserImage: string;
+  userImage: string;
 }
 
 interface ClothItem {
   id: number;
-  wardrobeClothImage: string;
-  category: string;
+  productImage: string;
+  name: string;
+}
+
+interface VitonFormData {
+  wardrobeUserId: number;
+  favoriteProductId: number;
+}
+
+interface VitonResponse {
+  vitonImage: string;
 }

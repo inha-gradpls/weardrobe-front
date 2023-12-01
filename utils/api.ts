@@ -570,28 +570,28 @@ export async function getSearchResult(
 }
 
 export async function getWardrobeData(): Promise<WardrobeDataResponse> {
-  // return (await httpGet(`${API_BASE_URL}/users/my/wardrobe`)).json();
+  // return (await httpGet(`${API_BASE_URL}/viton`)).json();
   return {
     wardrobeUser: [
       {
-        id: 10,
-        wardrobeUserImage: '/example.png',
+        id: 66,
+        userImage: '/example.png?',
       },
       {
-        id: 11,
-        wardrobeUserImage: '/example.png?',
+        id: 83,
+        userImage: '/example.png',
       },
     ],
-    wardrobeCloth: [
+    favoriteProduct: [
       {
-        id: 9,
-        wardrobeClothImage: '/example.png?',
-        category: '상의',
+        id: 74,
+        name: '나이키 맨투맨',
+        productImage: '/example.png',
       },
       {
-        id: 8,
-        wardrobeClothImage: '/example.png',
-        category: '하의',
+        id: 76,
+        name: '나이키 맨투맨2',
+        productImage: '/example.png?',
       },
     ],
   };
