@@ -597,7 +597,7 @@ export async function getWardrobeData(): Promise<WardrobeDataResponse> {
   };
 }
 
-export async function generateViton(data: VitonFormData) {
+export async function generateViton(data: VitonFormData): Promise<VitonResponse | undefined> {
   // const res = await httpPost(`${API_BASE_URL}/viton`, data);
   // if (res.status !== 200) return undefined;
   // return res.json();
@@ -607,10 +607,22 @@ export async function generateViton(data: VitonFormData) {
   };
 }
 
-export async function signUp(data: SignUpFormData) {
+export async function signUp(data: SignUpFormData): Promise<SignUpResponse | undefined> {
   const res = await httpPost(`${API_BASE_URL}/oauth2/sign-up`, data);
   if (res.status !== 200) return undefined;
   return await res.json();
+}
+
+export async function registerProduct(
+  data: ProductFormData,
+): Promise<RegisterProductResponse | undefined> {
+  // const res = await httpPost(`${API_BASE_URL}/products`, data);
+  // if (res.status !== 201) return undefined;
+  // return await res.json();
+
+  return {
+    id: 2,
+  };
 }
 
 export const lipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar, nulla quis viverra venenatis, metus sapien blandit urna, nec tristique sem justo non justo. Pellentesque semper massa nec dapibus luctus. Vestibulum facilisis ornare augue vel semper. Pellentesque id faucibus augue. Quisque ullamcorper tempor magna eget molestie. Etiam mattis a velit quis porttitor. Sed et posuere sapien, non convallis elit. Mauris tempor, metus non auctor accumsan, ante lacus posuere augue, ac scelerisque sem nunc luctus arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
