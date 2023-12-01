@@ -6,7 +6,7 @@ import { getHomeFeed } from '@/utils/api';
 import ProductCard from '@/components/ProductCard';
 import { useRouter } from 'next/navigation';
 import IconButton from '@/components/Button/IconButton';
-import SearchOverlay from './components/SearchOverlay';
+import { useSearch } from '../components/SearchOverlay';
 import { createPortal } from 'react-dom';
 
 export default function Home() {
@@ -24,7 +24,14 @@ export default function Home() {
   const { search, setSearch, searchOverlay } = useSearch();
 
   const searchActionButton = useMemo(
-    () => <IconButton onClick={() => setSearch(true)} icon="search" styleType="transparent" />,
+    () => (
+      <IconButton
+        key="topbar-search"
+        onClick={() => setSearch(true)}
+        icon="search"
+        styleType="transparent"
+      />
+    ),
     [setSearch],
   );
 
@@ -84,12 +91,4 @@ function OrderSelection({ order, setOrder }: OrderSelectionProps) {
       />
     </div>
   );
-}
-
-function useSearch() {
-  const [search, setSearch] = useState<boolean>(false);
-
-  const searchOverlay = <SearchOverlay onBack={() => setSearch(false)} />;
-
-  return { search, setSearch, searchOverlay };
 }
