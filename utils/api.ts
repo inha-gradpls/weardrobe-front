@@ -3,331 +3,14 @@ import { httpGet, httpPost } from './http';
 
 export const BLUR_URL =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getHomeFeed(order: ProductOrder): Promise<HomeFeedResponse> {
-  // return (await httpGet(`${API_BASE_URL}/recommendation?filter=${order}&direction=DESC`)).json();
-  const products: Product[] = [];
-
-  for (let i = 0; i < 20; i++) {
-    products.push({
-      id: i,
-      sellerId: 0,
-      buyerId: 0,
-      categoryId: 0,
-      brandId: 0,
-      name: `상품${i}`,
-      price: 100000,
-      deliveryAvailable: false,
-      purchaseDate: '',
-      productImage: '',
-      description: '',
-      productStatus: '',
-      viewCount: 0,
-      createdAt: '',
-    });
-  }
-  return new Promise<HomeFeedResponse>((res) => res(products));
+  return (await httpGet(`${API_BASE_URL}/recommendation?filter=${order}&direction=DESC`)).json();
 }
 
 export async function getFilters(): Promise<FilterResponse> {
-  // return (await httpGet(`${API_BASE_URL}/search/filters`)).json();
-  return {
-    categoryFilter: [
-      {
-        id: 1,
-        name: '아우터',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 2,
-        name: '상의',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 3,
-        name: '원피스',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 4,
-        name: '팬츠',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 5,
-        name: '스커트',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 6,
-        name: '가방',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 7,
-        name: '악세사리',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 8,
-        name: '신발',
-        parentId: null,
-        parentName: null,
-      },
-      {
-        id: 9,
-        name: '가디건',
-        parentId: 1,
-        parentName: '아우터',
-      },
-      {
-        id: 10,
-        name: '자켓',
-        parentId: 1,
-        parentName: '아우터',
-      },
-      {
-        id: 11,
-        name: '집업',
-        parentId: 1,
-        parentName: '아우터',
-      },
-      {
-        id: 12,
-        name: '코트',
-        parentId: 1,
-        parentName: '아우터',
-      },
-      {
-        id: 13,
-        name: '패딩',
-        parentId: 1,
-        parentName: '아우터',
-      },
-      {
-        id: 14,
-        name: '민소매',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 15,
-        name: '반팔티셔츠',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 16,
-        name: '긴팔티셔츠',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 17,
-        name: '니트',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 18,
-        name: '맨투맨',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 19,
-        name: '블라우스',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 20,
-        name: '셔츠',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 21,
-        name: '후드',
-        parentId: 2,
-        parentName: '상의',
-      },
-      {
-        id: 22,
-        name: '미니원피스',
-        parentId: 3,
-        parentName: '원피스',
-      },
-      {
-        id: 23,
-        name: '롱원피스',
-        parentId: 3,
-        parentName: '원피스',
-      },
-      {
-        id: 24,
-        name: '투피스',
-        parentId: 3,
-        parentName: '원피스',
-      },
-      {
-        id: 25,
-        name: '점프수트',
-        parentId: 3,
-        parentName: '원피스',
-      },
-      {
-        id: 26,
-        name: '롱팬츠',
-        parentId: 4,
-        parentName: '팬츠',
-      },
-      {
-        id: 27,
-        name: '숏팬츠',
-        parentId: 4,
-        parentName: '팬츠',
-      },
-      {
-        id: 28,
-        name: '슬랙스',
-        parentId: 4,
-        parentName: '팬츠',
-      },
-      {
-        id: 29,
-        name: '데님',
-        parentId: 4,
-        parentName: '팬츠',
-      },
-      {
-        id: 30,
-        name: '미니스커트',
-        parentId: 5,
-        parentName: '스커트',
-      },
-      {
-        id: 31,
-        name: '롱스커트',
-        parentId: 5,
-        parentName: '스커트',
-      },
-      {
-        id: 32,
-        name: '크로스백',
-        parentId: 6,
-        parentName: '가방',
-      },
-      {
-        id: 33,
-        name: '숄더백',
-        parentId: 6,
-        parentName: '가방',
-      },
-      {
-        id: 34,
-        name: '토트백',
-        parentId: 6,
-        parentName: '가방',
-      },
-      {
-        id: 35,
-        name: '에코백',
-        parentId: 6,
-        parentName: '가방',
-      },
-      {
-        id: 36,
-        name: '백팩',
-        parentId: 6,
-        parentName: '가방',
-      },
-      {
-        id: 37,
-        name: '귀걸이',
-        parentId: 7,
-        parentName: '악세사리',
-      },
-      {
-        id: 38,
-        name: '목걸이',
-        parentId: 7,
-        parentName: '악세사리',
-      },
-      {
-        id: 39,
-        name: '반지',
-        parentId: 7,
-        parentName: '악세사리',
-      },
-      {
-        id: 40,
-        name: '팔찌',
-        parentId: 7,
-        parentName: '악세사리',
-      },
-      {
-        id: 41,
-        name: '발찌',
-        parentId: 7,
-        parentName: '악세사리',
-      },
-      {
-        id: 42,
-        name: '로퍼',
-        parentId: 8,
-        parentName: '신발',
-      },
-      {
-        id: 43,
-        name: '힐',
-        parentId: 8,
-        parentName: '신발',
-      },
-      {
-        id: 44,
-        name: '운동화',
-        parentId: 8,
-        parentName: '신발',
-      },
-      {
-        id: 45,
-        name: '샌들',
-        parentId: 8,
-        parentName: '신발',
-      },
-      {
-        id: 46,
-        name: '슬리퍼',
-        parentId: 8,
-        parentName: '신발',
-      },
-      {
-        id: 47,
-        name: '부츠',
-        parentId: 8,
-        parentName: '신발',
-      },
-    ],
-    brandFilter: [
-      {
-        id: 2,
-        name: '나이키',
-      },
-      {
-        id: 1,
-        name: '보세',
-      },
-    ],
-  };
+  return (await httpGet(`${API_BASE_URL}/search/filters`)).json();
 }
 
 // returns true if redirect is needed
@@ -335,7 +18,10 @@ export async function kakaoLoginCallback(
   code: string,
   state: string,
 ): Promise<boolean | undefined> {
-  const res = await httpGet(`${API_BASE_URL}/login/oauth2/kakao?code=${code}&state=${state}`);
+  const res = await httpGet(
+    `${API_BASE_URL}/login/oauth2/kakao?code=${code}&state=${state}`,
+    false,
+  );
   // error
   if (res.status >= 400) {
     return undefined;
@@ -355,78 +41,18 @@ export async function kakaoLoginCallback(
 // fetches user info
 // if number is undefined: currentUser, else: user with the id
 export async function getUserInfo(id?: number): Promise<UserInfoResponse> {
-  if (id === undefined)
-    // return (await httpGet(`${API_BASE_URL}/users/my/profile`)).json();
-
-    return {
-      id: 1,
-      name: 'asdf',
-      nickname: 'asdf',
-      imageUrl: '/example.png',
-      age: 20,
-      gender: 'FEMALE',
-      createdDate: '2023-11-15',
-      phoneNumber: '01000000000',
-      reliableScore: 0.0,
-    };
-  // return (await httpGet(`${API_BASE_URL}/users/${id}/profile`)).json();
-  return {
-    id: id,
-    nickname: 'qwer',
-    imageUrl: '/example.png',
-    createdDate: '2023-11-15',
-    reliableScore: 0.0,
-  };
+  if (id === undefined) return (await httpGet(`${API_BASE_URL}/users/my/profile`)).json();
+  return (await httpGet(`${API_BASE_URL}/users/${id}/profile`)).json();
 }
 
 // gets product info
 export async function getProductInfo(productId: number): Promise<ProductInfoResponse | undefined> {
   if (productId < 0) return undefined;
-  // return (await httpGet(`${API_BASE_URL}/products/${productId}`)).json();
-  return {
-    id: 2,
-    name: '나이키 맨투맨',
-    price: 10000,
-    sellerId: productId % 2,
-    sellerNickname: 'asdf',
-    categoryParentName: '상의',
-    categoryName: '맨투맨',
-    brandName: '나이키',
-    deliveryAvailable: true,
-    productImage: '/example.png',
-    description: lipsum,
-    status: 'SELL',
-    createDate: '2023-11-15T03:13:56.468592',
-    viewCount: 4,
-    heartCount: 1,
-    commentCount: 0,
-  };
+  return (await httpGet(`${API_BASE_URL}/products/${productId}`)).json();
 }
 
 export async function getSearchHistory(): Promise<SearchHistoryResponse> {
-  // return (await httpGet(`${API_BASE_URL}/search/recent`)).json();
-  return [
-    {
-      id: 11,
-      word: 'abc',
-    },
-    {
-      id: 10,
-      word: 'abc',
-    },
-    {
-      id: 9,
-      word: 'abc',
-    },
-    {
-      id: 8,
-      word: '맨투맨',
-    },
-    {
-      id: 7,
-      word: '맨투맨',
-    },
-  ];
+  return (await httpGet(`${API_BASE_URL}/search/recent`)).json();
 }
 
 export async function getSearchResult(
@@ -440,171 +66,21 @@ export async function getSearchResult(
   const brandQuery = brand ? `&brandName=${brand}` : '';
   const deliveryQuery = delivery ? `&deliveryAvailable=${delivery}` : '';
 
-  // return (
-  //   await httpGet(
-  //     `${API_BASE_URL}/search?productName=${query}${categoryQuery}${brandQuery}${deliveryQuery}`,
-  //   )
-  // ).json();
-  return [
-    {
-      id: 2 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:48.548834',
-      viewCount: 1,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 3 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:54.041375',
-      viewCount: 0,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 4 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:48.548834',
-      viewCount: 1,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 5 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:54.041375',
-      viewCount: 0,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 6 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:48.548834',
-      viewCount: 1,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 7 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:54.041375',
-      viewCount: 0,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 8 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:48.548834',
-      viewCount: 1,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 9 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:54.041375',
-      viewCount: 0,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 10 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:48.548834',
-      viewCount: 1,
-      heartCount: 0,
-      commentCount: 0,
-    },
-    {
-      id: 1 + page * 10,
-      name: '나이키 맨투맨',
-      price: 10000,
-      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
-      categoryParentName: '상의',
-      categoryName: '맨투맨',
-      createDate: '2023-11-20T19:33:54.041375',
-      viewCount: 0,
-      heartCount: 0,
-      commentCount: 0,
-    },
-  ];
+  return (
+    await httpGet(
+      `${API_BASE_URL}/search?productName=${query}${categoryQuery}${brandQuery}${deliveryQuery}`,
+    )
+  ).json();
 }
 
 export async function getWardrobeData(): Promise<WardrobeDataResponse> {
-  // return (await httpGet(`${API_BASE_URL}/viton`)).json();
-  return {
-    wardrobeUser: [
-      {
-        id: 66,
-        userImage: '/example.png?',
-      },
-      {
-        id: 83,
-        userImage: '/example.png',
-      },
-    ],
-    favoriteProduct: [
-      {
-        id: 74,
-        name: '나이키 맨투맨',
-        productImage: '/example.png',
-      },
-      {
-        id: 76,
-        name: '나이키 맨투맨2',
-        productImage: '/example.png?',
-      },
-    ],
-  };
+  return (await httpGet(`${API_BASE_URL}/viton`)).json();
 }
 
 export async function generateViton(data: VitonFormData): Promise<VitonResponse | undefined> {
-  // const res = await httpPost(`${API_BASE_URL}/viton`, data);
-  // if (res.status !== 200) return undefined;
-  // return res.json();
-
-  return {
-    vitonImage: '/example.png?asdfasdf',
-  };
+  const res = await httpPost(`${API_BASE_URL}/viton`, data);
+  if (res.status !== 200) return undefined;
+  return res.json();
 }
 
 export async function signUp(data: SignUpFormData): Promise<SignUpResponse | undefined> {
@@ -616,13 +92,9 @@ export async function signUp(data: SignUpFormData): Promise<SignUpResponse | und
 export async function registerProduct(
   data: ProductFormData,
 ): Promise<RegisterProductResponse | undefined> {
-  // const res = await httpPost(`${API_BASE_URL}/products`, data);
-  // if (res.status !== 201) return undefined;
-  // return await res.json();
-
-  return {
-    id: 2,
-  };
+  const res = await httpPost(`${API_BASE_URL}/products`, data);
+  if (res.status !== 201) return undefined;
+  return await res.json();
 }
 
 export const lipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar, nulla quis viverra venenatis, metus sapien blandit urna, nec tristique sem justo non justo. Pellentesque semper massa nec dapibus luctus. Vestibulum facilisis ornare augue vel semper. Pellentesque id faucibus augue. Quisque ullamcorper tempor magna eget molestie. Etiam mattis a velit quis porttitor. Sed et posuere sapien, non convallis elit. Mauris tempor, metus non auctor accumsan, ante lacus posuere augue, ac scelerisque sem nunc luctus arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
