@@ -46,7 +46,7 @@ export default function WardrobePage() {
         <div className={`innerContent ${styles.container}`}>
           <div className={styles.resultContainer}>
             <Image
-              src={'/example.png'}
+              src={result ?? '/example.png'}
               alt="viton result"
               width={0}
               height={0}
