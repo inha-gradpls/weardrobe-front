@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 5px;
+}
+
+.selector {
+  flex: 0 0 35px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.item {
+  box-sizing: border-box;
+  border-right: 1px solid black;
+  text-align: center;
+  line-height: 35px;
+  height: 35px;
+  flex: 1;
+}
+
+.selected {
+  background-color: var(--accent-light);
+}
+
+.item:last-child {
+  border-right: none;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: flex-start;
+}
