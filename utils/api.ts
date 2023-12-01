@@ -429,6 +429,146 @@ export async function getSearchHistory(): Promise<SearchHistoryResponse> {
   ];
 }
 
+export async function getSearchResult(
+  query: string,
+  page: number,
+  category?: string,
+  delivery?: boolean,
+  brand?: string,
+): Promise<SearchResultResponse> {
+  const categoryQuery = category ? `&categoryName=${category}` : '';
+  const brandQuery = brand ? `&brandName=${brand}` : '';
+  const deliveryQuery = delivery ? `&deliveryAvailable=${delivery}` : '';
+
+  // return (
+  //   await httpGet(
+  //     `${API_BASE_URL}/search?productName=${query}${categoryQuery}${brandQuery}${deliveryQuery}`,
+  //   )
+  // ).json();
+  return [
+    {
+      id: 2 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:48.548834',
+      viewCount: 1,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 3 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:54.041375',
+      viewCount: 0,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 4 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:48.548834',
+      viewCount: 1,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 5 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:54.041375',
+      viewCount: 0,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 6 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:48.548834',
+      viewCount: 1,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 7 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:54.041375',
+      viewCount: 0,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 8 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:48.548834',
+      viewCount: 1,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 9 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:54.041375',
+      viewCount: 0,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 10 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/ddca7a02-8dc9-4e98-9796-3194b063f84c.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:48.548834',
+      viewCount: 1,
+      heartCount: 0,
+      commentCount: 0,
+    },
+    {
+      id: 1 + page * 10,
+      name: '나이키 맨투맨',
+      price: 10000,
+      productImage: '/images/7eb470f2-6b15-4552-b9d7-ab2ad681bb28.jpg',
+      categoryParentName: '상의',
+      categoryName: '맨투맨',
+      createDate: '2023-11-20T19:33:54.041375',
+      viewCount: 0,
+      heartCount: 0,
+      commentCount: 0,
+    },
+  ];
+}
+
 export const lipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar, nulla quis viverra venenatis, metus sapien blandit urna, nec tristique sem justo non justo. Pellentesque semper massa nec dapibus luctus. Vestibulum facilisis ornare augue vel semper. Pellentesque id faucibus augue. Quisque ullamcorper tempor magna eget molestie. Etiam mattis a velit quis porttitor. Sed et posuere sapien, non convallis elit. Mauris tempor, metus non auctor accumsan, ante lacus posuere augue, ac scelerisque sem nunc luctus arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
 Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus sed dapibus risus, non tristique mi. Quisque vel euismod tellus. Pellentesque sit amet porttitor massa. Maecenas erat mi, eleifend a eleifend non, malesuada eget purus. Mauris ac enim lobortis nulla consequat elementum. Donec imperdiet, metus sed auctor bibendum, eros nulla blandit purus, vel convallis odio nulla id dui. Ut condimentum diam ut turpis tempus, a rhoncus arcu convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec lacinia elementum ex vitae vestibulum. Sed id est ultricies neque fermentum hendrerit. Duis molestie velit id eleifend ornare.
 Etiam augue metus, venenatis eget facilisis ut, ornare ut elit. Morbi in sodales velit, in sollicitudin ligula. Donec ac ex pulvinar dolor elementum eleifend. Suspendisse eget tempus arcu. Quisque id vestibulum magna, ac sodales purus. Integer pulvinar lectus pulvinar, aliquet ipsum vel, iaculis nisl. Quisque maximus diam quis eros eleifend commodo.
