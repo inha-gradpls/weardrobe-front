@@ -1,0 +1,54 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.resultContainer {
+  background-color: var(--background);
+  max-height: 500px;
+  height: 50%;
+}
+
+.carouselContainer {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  padding-bottom: 50px;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.carousel {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.carouselItems {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  gap: 10px;
+}
+
+.carouselItem {
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 10px;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border: 3px solid transparent;
+}
+
+.selected {
+  border: 3px solid var(--accent);
+}
