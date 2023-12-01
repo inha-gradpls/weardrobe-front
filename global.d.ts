@@ -107,3 +107,11 @@ interface VitonFormData {
 interface VitonResponse {
   vitonImage: string;
 }
+
+interface SignUpFormData {
+  name: string;
+  nickname: string;
+  age: number;
+  gender: 'M' | 'F';
+  phoneNumber: string;
+}

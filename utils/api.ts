@@ -1,5 +1,5 @@
 import { useUser } from '@/states/user';
-import { httpGet } from './http';
+import { httpGet, httpPost } from './http';
 
 export const BLUR_URL =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
@@ -605,6 +605,12 @@ export async function generateViton(data: VitonFormData) {
   return {
     vitonImage: '/example.png?asdfasdf',
   };
+}
+
+export async function signUp(data: SignUpFormData) {
+  const res = await httpPost(`${API_BASE_URL}/oauth2/sign-up`, data);
+  if (res.status !== 200) return undefined;
+  return await res.json();
 }
 
 export const lipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar, nulla quis viverra venenatis, metus sapien blandit urna, nec tristique sem justo non justo. Pellentesque semper massa nec dapibus luctus. Vestibulum facilisis ornare augue vel semper. Pellentesque id faucibus augue. Quisque ullamcorper tempor magna eget molestie. Etiam mattis a velit quis porttitor. Sed et posuere sapien, non convallis elit. Mauris tempor, metus non auctor accumsan, ante lacus posuere augue, ac scelerisque sem nunc luctus arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
