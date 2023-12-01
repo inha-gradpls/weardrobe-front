@@ -80,3 +80,11 @@ interface SearchHistoryItem {
 type SearchHistoryResponse = SearchHistoryItem[];
 
 type SearchResultResponse = ProductInfo[];
+
+interface SignUpFormData {
+  name: string;
+  nickname: string;
+  age: number;
+  gender: 'M' | 'F';
+  phoneNumber: string;
+}
