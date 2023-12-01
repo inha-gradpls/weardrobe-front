@@ -8,9 +8,10 @@ interface UserCardProps {
   userId: number;
   nickname?: string;
   profilePic?: string;
+  large?: boolean;
 }
 
-export default function UserCard({ userId, nickname, profilePic }: UserCardProps) {
+export default function UserCard({ userId, nickname, profilePic, large = false }: UserCardProps) {
   const [data, setData] = useState<UserInfo>();
 
   useEffect(() => {
@@ -33,19 +34,21 @@ export default function UserCard({ userId, nickname, profilePic }: UserCardProps
 
   if (data === undefined) return <></>;
 
+  const imgSize = large ? 70 : 26;
+
   return (
     <Link href={`/users/${userId}`}>
-      <div className={styles.container}>
-        <div className={styles.photo}>
+      <div className={`${styles.container} ${large && styles.largeText}`}>
+        <div className={`${styles.photo} ${large && styles.large}`}>
           <Image
             src={data.imageUrl}
             alt={'profile picture'}
-            width={26}
-            height={26}
+            width={imgSize}
+            height={imgSize}
             style={{ objectFit: 'fill' }}
           />
         </div>
-        {data.nickname}
+        @{data.nickname}
       </div>
     </Link>
   );
