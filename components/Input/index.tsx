@@ -4,6 +4,7 @@ import styles from './input.module.css';
 interface InputProps extends HTMLAttributes<HTMLInputElement> {
   fill?: boolean;
   name?: string;
+  type?: 'text' | 'number';
 }
 
 export default function Input({ fill, ...props }: InputProps) {
