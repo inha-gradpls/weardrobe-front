@@ -569,6 +569,44 @@ export async function getSearchResult(
   ];
 }
 
+export async function getWardrobeData(): Promise<WardrobeDataResponse> {
+  // return (await httpGet(`${API_BASE_URL}/viton`)).json();
+  return {
+    wardrobeUser: [
+      {
+        id: 66,
+        userImage: '/example.png?',
+      },
+      {
+        id: 83,
+        userImage: '/example.png',
+      },
+    ],
+    favoriteProduct: [
+      {
+        id: 74,
+        name: '나이키 맨투맨',
+        productImage: '/example.png',
+      },
+      {
+        id: 76,
+        name: '나이키 맨투맨2',
+        productImage: '/example.png?',
+      },
+    ],
+  };
+}
+
+export async function generateViton(data: VitonFormData) {
+  // const res = await httpPost(`${API_BASE_URL}/viton`, data);
+  // if (res.status !== 200) return undefined;
+  // return res.json();
+
+  return {
+    vitonImage: '/example.png?asdfasdf',
+  };
+}
+
 export async function signUp(data: SignUpFormData) {
   const res = await httpPost(`${API_BASE_URL}/oauth2/sign-up`, data);
   if (res.status !== 200) return undefined;

@@ -81,6 +81,33 @@ type SearchHistoryResponse = SearchHistoryItem[];
 
 type SearchResultResponse = ProductInfo[];
 
+interface WardrobeData {
+  wardrobeUser: UserItem[];
+  favoriteProduct: ClothItem[];
+}
+
+type WardrobeDataResponse = WardrobeData;
+
+interface UserItem {
+  id: number;
+  userImage: string;
+}
+
+interface ClothItem {
+  id: number;
+  productImage: string;
+  name: string;
+}
+
+interface VitonFormData {
+  wardrobeUserId: number;
+  favoriteProductId: number;
+}
+
+interface VitonResponse {
+  vitonImage: string;
+}
+
 interface SignUpFormData {
   name: string;
   nickname: string;
