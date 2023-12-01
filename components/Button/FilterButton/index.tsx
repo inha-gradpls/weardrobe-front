@@ -3,7 +3,7 @@ import styles from './filterButton.module.css';
 import 'material-symbols';
 
 interface FilterButtonProps {
-  options: string[];
+  options?: string[];
   label: string;
   onSelect: (option: string | undefined) => void;
 }
@@ -18,6 +18,8 @@ export default function FilterButton({ options, label, onSelect }: FilterButtonP
     document.addEventListener('pointerdown', pointerdown);
     return () => document.removeEventListener('pointerdown', pointerdown);
   }, [open]);
+
+  if (options === undefined) return <></>;
 
   return (
     <div className={styles.container}>
@@ -37,7 +39,10 @@ export default function FilterButton({ options, label, onSelect }: FilterButtonP
             <li
               className={`${styles.optionItem} ${v === selected ? styles.selected : ''}`}
               key={v}
-              onPointerDown={() => setSelected(v)}
+              onPointerDown={() => {
+                onSelect(v);
+                setSelected(v);
+              }}
             >
               <p>{v}</p>
             </li>
