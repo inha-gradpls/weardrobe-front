@@ -13,6 +13,11 @@ export function tsToDeltaStr(ts: string) {
   return `방금전`;
 }
 
+export function dateToStr(dateStr: string) {
+  const date = new Date(dateStr);
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+}
+
 export function useInfiniteScroll<T>(
   api: (page: number, pageSize: number) => Promise<T[] | undefined>,
   pageSize: number,

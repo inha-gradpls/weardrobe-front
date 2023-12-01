@@ -11,3 +11,12 @@
   overflow: hidden;
   border-radius: 50%;
 }
+
+.large {
+  width: 70px;
+  height: 70px;
+}
+
+.largeText {
+  font-size: 20px;
+}
