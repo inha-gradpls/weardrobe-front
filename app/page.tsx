@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import IconButton from '@/components/Button/IconButton';
 import { useSearch } from '../components/SearchOverlay';
 import { createPortal } from 'react-dom';
+import RegisterProductOverlay from '@/components/RegisterProductOverlay';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,6 +23,7 @@ export default function Home() {
   }, [order, setProducts]);
 
   const { search, setSearch, searchOverlay } = useSearch();
+  const [register, setRegister] = useState<boolean>(false);
 
   const searchActionButton = useMemo(
     () => (
@@ -44,7 +46,7 @@ export default function Home() {
       >
         <h3>메인화면</h3>
       </TopBar>
-      <div className="innerContent">
+      <div className={`innerContent ${styles.container}`}>
         <div className={styles.products}>
           {products.map((v) => (
             <ProductCard
@@ -60,8 +62,18 @@ export default function Home() {
             />
           ))}
         </div>
+        <div className={styles.floatingButton}>
+          <IconButton
+            label="상품 등록"
+            icon="add"
+            styleType="primary"
+            onClick={() => setRegister(true)}
+          />
+        </div>
       </div>
       {search && createPortal(searchOverlay, document.body)}
+      {register &&
+        createPortal(<RegisterProductOverlay onClose={() => setRegister(false)} />, document.body)}
     </>
   );
 }
