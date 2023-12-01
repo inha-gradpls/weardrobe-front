@@ -80,3 +80,21 @@ interface SearchHistoryItem {
 type SearchHistoryResponse = SearchHistoryItem[];
 
 type SearchResultResponse = ProductInfo[];
+
+interface WardrobeData {
+  wardrobeUser: UserItem[];
+  wardrobeCloth: ClothItem[];
+}
+
+type WardrobeDataResponse = WardrobeData;
+
+interface UserItem {
+  id: number;
+  wardrobeUserImage: string;
+}
+
+interface ClothItem {
+  id: number;
+  wardrobeClothImage: string;
+  category: string;
+}
