@@ -69,7 +69,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </div>
             <div className={styles.content}>
               <h3>{productInfo.name}</h3>
-              <UserCard userId={productInfo.sellerId} />
+              <UserCard userId={productInfo.sellerId ?? 0} />
               <div className={styles.infoContainer}>
                 <p>{tsToDeltaStr(productInfo.createDate)}</p>
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>visibility</span>
@@ -79,7 +79,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>sms</span>
                 <p>{productInfo.commentCount}</p>
               </div>
-              <desc>{productInfo.description}</desc>
+              <p>{productInfo.description}</p>
             </div>
           </div>
           <BottomBar isSeller={isSeller} productId={productId} price={productInfo.price} />
@@ -97,8 +97,8 @@ function UserActions({ isSeller }: UserActionsProps) {
   if (!isSeller) return <></>;
   return (
     <>
-      <IconButton onClick={() => {}} icon="edit" style="transparent" />
-      <IconButton onClick={() => {}} icon="delete" style="transparent" />
+      <IconButton onClick={() => {}} icon="edit" styleType="transparent" />
+      <IconButton onClick={() => {}} icon="delete" styleType="transparent" />
     </>
   );
 }
@@ -117,7 +117,7 @@ function BottomBar({ isSeller, productId, price }: BottomBarProps) {
       <IconButton
         onClick={() => {}}
         label={isSeller ? '댓글 목록' : '댓글 달기'}
-        style="secondary"
+        styleType="secondary"
       />
     </div>
   );

@@ -1,0 +1,7 @@
+.input {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--background-back);
+  box-sizing: border-box;
+}

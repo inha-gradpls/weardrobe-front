@@ -1,5 +1,7 @@
 .container {
   position: relative;
+
+  font-size: 15px;
 }
 
 .buttonContainer {
@@ -15,6 +17,8 @@
 }
 
 .optionsList {
+  border: 1px solid var(--empty);
+  z-index: 10;
   background-color: white;
   position: absolute;
   border-radius: 10px;

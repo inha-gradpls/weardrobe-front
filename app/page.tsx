@@ -1,11 +1,13 @@
 'use client';
 import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { getHomeFeed } from '@/utils/api';
 import ProductCard from '@/components/ProductCard';
 import { useRouter } from 'next/navigation';
 import IconButton from '@/components/Button/IconButton';
+import { useSearch } from '../components/SearchOverlay';
+import { createPortal } from 'react-dom';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,9 +21,27 @@ export default function Home() {
     })();
   }, [order, setProducts]);
 
+  const { search, setSearch, searchOverlay } = useSearch();
+
+  const searchActionButton = useMemo(
+    () => (
+      <IconButton
+        key="topbar-search"
+        onClick={() => setSearch(true)}
+        icon="search"
+        styleType="transparent"
+      />
+    ),
+    [setSearch],
+  );
+
   return (
     <>
-      <TopBar backButton={false} footer={<OrderSelection order={order} setOrder={setOrder} />}>
+      <TopBar
+        backButton={false}
+        actions={[searchActionButton]}
+        footer={<OrderSelection order={order} setOrder={setOrder} />}
+      >
         <h3>메인화면</h3>
       </TopBar>
       <div className="innerContent">
@@ -41,6 +61,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      {search && createPortal(searchOverlay, document.body)}
     </>
   );
 }
@@ -56,17 +77,17 @@ function OrderSelection({ order, setOrder }: OrderSelectionProps) {
       <IconButton
         label="최근"
         onClick={() => setOrder('createdDate')}
-        style={order === 'createdDate' ? 'primary' : 'none'}
+        styleType={order === 'createdDate' ? 'primary' : 'none'}
       />
       <IconButton
         label="가격"
         onClick={() => setOrder('price')}
-        style={order === 'price' ? 'primary' : 'none'}
+        styleType={order === 'price' ? 'primary' : 'none'}
       />
       <IconButton
         label="조회수"
         onClick={() => setOrder('viewCount')}
-        style={order === 'viewCount' ? 'primary' : 'none'}
+        styleType={order === 'viewCount' ? 'primary' : 'none'}
       />
     </div>
   );

@@ -1,24 +1,36 @@
 'use client';
+import { HTMLAttributes, MouseEventHandler } from 'react';
 import styles from './iconButton.module.css';
 import 'material-symbols';
 
 type StyleTypes = 'primary' | 'secondary' | 'none' | 'transparent';
 
-interface IconButtonProps {
+interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   label?: string;
   icon?: string;
-  style?: StyleTypes;
-  onClick: () => void;
+  styleType?: StyleTypes;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  type?: 'submit';
 }
 
-export default function IconButton({ label, icon, onClick, style = 'none' }: IconButtonProps) {
+export default function IconButton({
+  label,
+  icon,
+  onClick,
+  styleType = 'none',
+  ...props
+}: IconButtonProps) {
   return (
-    <div className={`${styles.container} ${getClassName(style)}`} onClick={onClick}>
+    <button
+      className={`${styles.container} ${getClassName(styleType)}`}
+      onClick={onClick}
+      {...props}
+    >
       {icon === undefined ? undefined : (
         <span className={`material-symbols-outlined ${styles.icon}`}>{icon}</span>
       )}
       {label === undefined ? undefined : <p>{label}</p>}
-    </div>
+    </button>
   );
 }
 

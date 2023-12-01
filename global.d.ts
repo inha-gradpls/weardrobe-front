@@ -55,15 +55,15 @@ interface ProductInfo {
   id: number;
   name: string;
   price: number;
-  sellerId: number;
-  sellerNickname: string;
+  sellerId?: number;
+  sellerNickname?: string;
   categoryParentName: string;
   categoryName: string;
-  brandName: string;
-  deliveryAvailable: boolean;
+  brandName?: string;
+  deliveryAvailable?: boolean;
   productImage: string;
-  description: string;
-  status: 'SELL' | 'BUY';
+  description?: string;
+  status?: 'SELL' | 'BUY';
   createDate: string;
   viewCount: number;
   heartCount: number;
@@ -71,3 +71,12 @@ interface ProductInfo {
 }
 
 type ProductInfoResponse = ProductInfo;
+
+interface SearchHistoryItem {
+  id: number;
+  word: string;
+}
+
+type SearchHistoryResponse = SearchHistoryItem[];
+
+type SearchResultResponse = ProductInfo[];
