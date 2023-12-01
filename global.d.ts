@@ -115,3 +115,21 @@ interface SignUpFormData {
   gender: 'M' | 'F';
   phoneNumber: string;
 }
+
+interface SignUpResponse {
+  id: number;
+}
+
+interface ProductFormData {
+  name: string;
+  price: number;
+  deliveryAvailable: boolean;
+  productImage: File;
+  description: string;
+  categoryName: string;
+  brandName: string;
+}
+
+interface RegisterProductResponse {
+  id: number;
+}
