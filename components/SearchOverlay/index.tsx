@@ -12,8 +12,19 @@ interface SearchOverlayProps {
 }
 
 export default function SearchOverlay({ onBack, defaultValue }: SearchOverlayProps) {
+  const router = useRouter();
   return (
-    <form className={styles.container} action="/search">
+    <form
+      className={styles.container}
+      onSubmit={(e) => {
+        e.preventDefault();
+        // read form data to json
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const json = Object.fromEntries(formData.entries());
+        router.push(`/search?q=${json.q as string}`);
+      }}
+    >
       <TopBar
         backButton={true}
         onBack={onBack}

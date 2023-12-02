@@ -2,22 +2,34 @@
 import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { getHomeFeed } from '@/utils/api';
+import { API_BASE_URL, getHomeFeed } from '@/utils/api';
 import ProductCard from '@/components/ProductCard';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import IconButton from '@/components/Button/IconButton';
 import { useSearch } from '../components/SearchOverlay';
 import { createPortal } from 'react-dom';
 import RegisterProductOverlay from '@/components/RegisterProductOverlay';
+import { useUser } from '@/states/user';
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductInfo[]>([]);
   const [order, setOrder] = useState<ProductOrder>('createdDate');
   const router = useRouter();
+  const params = useSearchParams();
+
+  const access = params.get('accessToken');
+  const refresh = params.get('refreshToken');
+
+  useEffect(() => {
+    if (access) sessionStorage.setItem('accessToken', `Bearer ${access}`);
+    if (refresh) localStorage.setItem('refreshToken', `Bearer ${refresh}`);
+    router.replace('/');
+  }, [access, refresh, router]);
 
   useEffect(() => {
     (async () => {
       const newProducts = await getHomeFeed(order);
+      if (newProducts === undefined) return;
       setProducts(newProducts);
     })();
   }, [order, setProducts]);
@@ -53,7 +65,8 @@ export default function Home() {
               key={v.id}
               id={v.id}
               name={v.name}
-              category={v.categoryId.toString()}
+              img={`${API_BASE_URL}${v.productImage}`}
+              category={v.categoryName}
               price={v.price}
               viewCount={v.viewCount}
               likeCount={0}

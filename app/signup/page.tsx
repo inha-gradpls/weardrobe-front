@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
 import { signUp } from '@/utils/api';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useUser } from '@/states/user';
 
 export default function SignupPage() {
   const [gender, setGender] = useState<'M' | 'F'>();
@@ -15,23 +14,11 @@ export default function SignupPage() {
   const params = useSearchParams();
 
   const access = params.get('accessToken');
-  const refresh = params.get('refreshToken');
-
-  const { setAccessToken, setRefreshToken } = useUser((state) => ({
-    setAccessToken: state.setAccessToken,
-    setRefreshToken: state.setRefreshToken,
-  }));
 
   // access
   useEffect(() => {
-    if (access) setAccessToken(`Bearer ${access}`);
-    if (refresh) {
-      setRefreshToken(`Bearer ${refresh}`);
-      router.push('/');
-    }
-  }, [access, refresh, router, setAccessToken, setRefreshToken]);
-
-  if (refresh) return <></>;
+    if (access) sessionStorage.setItem('accessToken', `Bearer ${access}`);
+  }, [access]);
 
   return (
     <>
@@ -71,7 +58,6 @@ export default function SignupPage() {
           }
 
           // success
-          // TODO: should request refresh token?
           router.push('/');
         }}
       >

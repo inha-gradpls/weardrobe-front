@@ -3,7 +3,7 @@ import styles from './page.module.css';
 import TopBar from '@/components/TopBar';
 import UserCard from '@/components/UserCard';
 import { getUserInfo } from '@/utils/api';
-import { dateToStr } from '@/utils/uiHelper';
+import { dateToStr, getImageUrl } from '@/utils/uiHelper';
 import { useEffect, useState } from 'react';
 
 interface UserPageProps {
@@ -34,7 +34,7 @@ export default function UserPage({ params }: UserPageProps) {
               large={true}
               userId={data?.id}
               nickname={data?.nickname}
-              profilePic={data?.imageUrl}
+              profilePic={getImageUrl(data?.imageUrl)}
             />
             <div className={styles.content}>
               <p className={styles.label}>닉네임</p>

@@ -5,64 +5,54 @@ export const BLUR_URL =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function getHomeFeed(order: ProductOrder): Promise<HomeFeedResponse> {
-  return (await httpGet(`${API_BASE_URL}/recommendation?filter=${order}&direction=DESC`)).json();
+export async function getHomeFeed(
+  order: ProductOrder,
+  signal?: AbortSignal,
+): Promise<HomeFeedResponse | undefined> {
+  return (
+    await httpGet(`${API_BASE_URL}/home?filter=${order}&direction=DESC`, true, signal)
+  )?.json();
 }
 
-export async function getFilters(): Promise<FilterResponse> {
-  return (await httpGet(`${API_BASE_URL}/search/filters`)).json();
-}
-
-// returns true if redirect is needed
-export async function kakaoLoginCallback(
-  code: string,
-  state: string,
-): Promise<boolean | undefined> {
-  const res = await httpGet(
-    `${API_BASE_URL}/login/oauth2/kakao?code=${code}&state=${state}`,
-    false,
-  );
-  // error
-  if (res.status >= 400) {
-    return undefined;
-  }
-
-  // get tokens
-  const access = res.headers.get('Authorization') ?? undefined;
-  const refresh = res.headers.get('Authorization-Refresh') ?? undefined;
-
-  // set user state
-  useUser.setState({ accessToken: access, refreshToken: refresh });
-
-  // redirect(true) if no refresh
-  return refresh === undefined;
+export async function getFilters(signal?: AbortSignal): Promise<FilterResponse | undefined> {
+  return (await httpGet(`${API_BASE_URL}/search/filters`, true, signal))?.json();
 }
 
 // fetches user info
 // if number is undefined: currentUser, else: user with the id
-export async function getUserInfo(id?: number): Promise<UserInfoResponse> {
-  if (id === undefined) return (await httpGet(`${API_BASE_URL}/users/my/profile`)).json();
-  return (await httpGet(`${API_BASE_URL}/users/${id}/profile`)).json();
+export async function getUserInfo(
+  id?: number,
+  signal?: AbortSignal,
+): Promise<UserInfoResponse | undefined> {
+  if (id === undefined)
+    return (await httpGet(`${API_BASE_URL}/users/my/profile`, true, signal))?.json();
+  return (await httpGet(`${API_BASE_URL}/users/${id}/profile`))?.json();
 }
 
 // gets product info
-export async function getProductInfo(productId: number): Promise<ProductInfoResponse | undefined> {
+export async function getProductInfo(
+  productId: number,
+  signal?: AbortSignal,
+): Promise<ProductInfoResponse | undefined> {
   if (productId < 0) return undefined;
-  return (await httpGet(`${API_BASE_URL}/products/${productId}`)).json();
+  return (await httpGet(`${API_BASE_URL}/products/${productId}`, true, signal))?.json();
 }
 
-export async function getSearchHistory(): Promise<SearchHistoryResponse> {
-  return (await httpGet(`${API_BASE_URL}/search/recent`)).json();
+export async function getSearchHistory(
+  signal?: AbortSignal,
+): Promise<SearchHistoryResponse | undefined> {
+  return (await httpGet(`${API_BASE_URL}/search/recent`, true, signal))?.json();
 }
 
 export async function getSearchResult(
   query: string,
   page: number,
+  signal?: AbortSignal,
   category?: string,
   delivery?: boolean,
   brand?: string,
   status?: string,
-): Promise<SearchResultResponse> {
+): Promise<SearchResultResponse | undefined> {
   const categoryQuery = category ? `&categoryName=${category}` : '';
   const brandQuery = brand ? `&brandName=${brand}` : '';
   const deliveryQuery = delivery ? `&deliveryAvailable=${delivery}` : '';
@@ -71,31 +61,46 @@ export async function getSearchResult(
   return (
     await httpGet(
       `${API_BASE_URL}/search?productName=${query}&page=${page}${categoryQuery}${brandQuery}${deliveryQuery}${statusQuery}`,
+      true,
+      signal,
     )
-  ).json();
+  )?.json();
 }
 
-export async function getWardrobeData(): Promise<WardrobeDataResponse> {
-  return (await httpGet(`${API_BASE_URL}/viton`)).json();
+export async function getWardrobeData(
+  signal?: AbortSignal,
+): Promise<WardrobeDataResponse | undefined> {
+  return (await httpGet(`${API_BASE_URL}/viton`, true, signal))?.json();
 }
 
-export async function generateViton(data: VitonFormData): Promise<VitonResponse | undefined> {
-  const res = await httpPost(`${API_BASE_URL}/viton`, data);
-  if (res.status !== 200) return undefined;
+export async function generateViton(
+  data: VitonFormData,
+  signal?: AbortSignal,
+): Promise<VitonResponse | undefined> {
+  const res = await httpPost(`${API_BASE_URL}/viton`, data, true, true, signal);
+  if (!res || res.status !== 200) return undefined;
   return res.json();
 }
 
-export async function signUp(data: SignUpFormData): Promise<SignUpResponse | undefined> {
-  const res = await httpPost(`${API_BASE_URL}/oauth2/sign-up`, data);
-  if (res.status !== 200) return undefined;
+export async function signUp(
+  data: SignUpFormData,
+  signal?: AbortSignal,
+): Promise<SignUpResponse | undefined> {
+  const res = await httpPost(`${API_BASE_URL}/oauth2/sign-up`, data, true, false, signal);
+  if (!res || res.status !== 200) return undefined;
+  const access = res.headers.get('Authorization');
+  if (access) sessionStorage.setItem('accessToken', access);
+  const refresh = res.headers.get('Authorization-Refresh');
+  if (refresh) localStorage.setItem('refreshToken', refresh);
   return await res.json();
 }
 
 export async function registerProduct(
   data: ProductFormData,
+  signal?: AbortSignal,
 ): Promise<RegisterProductResponse | undefined> {
-  const res = await httpPost(`${API_BASE_URL}/products`, data);
-  if (res.status !== 201) return undefined;
+  const res = await httpPost(`${API_BASE_URL}/products`, data, false, true, signal);
+  if (!res || res.status !== 200) return undefined;
   return await res.json();
 }
 
