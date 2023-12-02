@@ -1,6 +1,6 @@
 import TopBar from '@/components/TopBar';
 import styles from './searchOverlay.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getSearchHistory } from '@/utils/api';
 import IconButton from '@/components/Button/IconButton';
 import { useRouter } from 'next/navigation';
@@ -13,16 +13,18 @@ interface SearchOverlayProps {
 
 export default function SearchOverlay({ onBack, defaultValue }: SearchOverlayProps) {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
     <form
+      ref={formRef}
       className={styles.container}
       onSubmit={(e) => {
         e.preventDefault();
         // read form data to json
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
-        const json = Object.fromEntries(formData.entries());
-        router.push(`/search?q=${json.q as string}`);
+        router.push(`/search?q=${formData.get('q') as string}`);
       }}
     >
       <TopBar
@@ -31,7 +33,20 @@ export default function SearchOverlay({ onBack, defaultValue }: SearchOverlayPro
         footer={<SearchHistory />}
         actions={<IconButton type="submit" icon="search" styleType="transparent" />}
       >
-        <Input fill={true} name="q" defaultValue={defaultValue} />
+        <Input
+          fill={true}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              if (!formRef.current) return;
+              formRef.current.dispatchEvent(
+                new Event('submit', { cancelable: true, bubbles: true }),
+              );
+            }
+          }}
+          name="q"
+          defaultValue={defaultValue}
+        />
       </TopBar>
     </form>
   );
