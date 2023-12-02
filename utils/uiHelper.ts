@@ -31,8 +31,9 @@ export function useInfiniteScroll<T>(
   lastItemRef: RefObject<HTMLElement>,
 ) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [result, setResult] = useState<T[]>([]);
+  const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
     return () => {
@@ -46,6 +47,7 @@ export function useInfiniteScroll<T>(
     (async () => {
       const res = await api(page, pageSize);
       if (res === undefined) return;
+      if (res.length < 10) setLastPage(true);
       setResult((state) => {
         // 요청한 시점(바로 이전 페이지) 까지만 사용
         return [...state.slice(0, pageSize * (page - 1)), ...res];
@@ -57,7 +59,7 @@ export function useInfiniteScroll<T>(
   // intersection observer for infinite load
   useEffect(() => {
     // dont observe if loading or last page reached
-    if (loading || lastItemRef.current === null) return;
+    if (loading || lastItemRef.current === null || lastPage) return;
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       setLoading(true);
@@ -66,7 +68,7 @@ export function useInfiniteScroll<T>(
     });
     observer.observe(lastItemRef.current);
     return () => observer.disconnect();
-  }, [lastItemRef, loading, page]);
+  }, [lastItemRef, lastPage, loading, page]);
 
   return { page, loading, setPage, setLoading, result };
 }
