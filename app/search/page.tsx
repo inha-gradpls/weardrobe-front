@@ -49,7 +49,7 @@ export default function SearchPage() {
   const getResult = useCallback(
     async (page: number, pageSize: number) => {
       const categoryQuery = category.length === 0 ? undefined : category[category.length - 1];
-      return await getSearchResult(query, page, categoryQuery, delivery, brand);
+      return await getSearchResult(query, page, undefined, categoryQuery, delivery, brand);
     },
     [brand, category, delivery, query],
   );
