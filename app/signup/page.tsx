@@ -3,13 +3,36 @@ import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
 import Input from '@/components/Input';
 import FilterButton from '@/components/Button/FilterButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
 import { signUp } from '@/utils/api';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useUser } from '@/states/user';
+
 export default function SignupPage() {
   const [gender, setGender] = useState<'M' | 'F'>();
   const router = useRouter();
+  const params = useSearchParams();
+
+  const access = params.get('accessToken');
+  const refresh = params.get('refreshToken');
+
+  const { setAccessToken, setRefreshToken } = useUser((state) => ({
+    setAccessToken: state.setAccessToken,
+    setRefreshToken: state.setRefreshToken,
+  }));
+
+  // access
+  useEffect(() => {
+    if (access) setAccessToken(`Bearer ${access}`);
+    if (refresh) {
+      setRefreshToken(`Bearer ${refresh}`);
+      router.push('/');
+    }
+  }, [access, refresh, router, setAccessToken, setRefreshToken]);
+
+  if (refresh) return <></>;
+
   return (
     <>
       <TopBar backButton={false}>

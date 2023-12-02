@@ -1,5 +1,3 @@
-import { getUserInfo } from '@/utils/api';
-import { userInfo } from 'os';
 import { create } from 'zustand';
 
 interface UserState {
@@ -11,6 +9,8 @@ interface UserState {
 interface UserActions {
   reset: () => void;
   setUserInfo: (userInfo: UserInfo) => void;
+  setAccessToken: (token: string) => void;
+  setRefreshToken: (token: string) => void;
 }
 
 const initialState: UserState = {
@@ -23,4 +23,6 @@ export const useUser = create<UserState & UserActions>((set) => ({
   ...initialState,
   reset: () => set(initialState),
   setUserInfo: (userInfo) => set({ userInfo }),
+  setAccessToken: (token) => set({ accessToken: token }),
+  setRefreshToken: (token) => set({ refreshToken: token }),
 }));
