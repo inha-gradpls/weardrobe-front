@@ -61,14 +61,16 @@ export async function getSearchResult(
   category?: string,
   delivery?: boolean,
   brand?: string,
+  status?: string,
 ): Promise<SearchResultResponse> {
   const categoryQuery = category ? `&categoryName=${category}` : '';
   const brandQuery = brand ? `&brandName=${brand}` : '';
   const deliveryQuery = delivery ? `&deliveryAvailable=${delivery}` : '';
+  const statusQuery = status ? `&productStatus=${status}` : '';
 
   return (
     await httpGet(
-      `${API_BASE_URL}/search?productName=${query}${categoryQuery}${brandQuery}${deliveryQuery}`,
+      `${API_BASE_URL}/search?productName=${query}&page=${page}${categoryQuery}${brandQuery}${deliveryQuery}${statusQuery}`,
     )
   ).json();
 }

@@ -27,6 +27,7 @@ export default function SearchPage() {
 
   const delivery = searchParams.get('delivery') === 'true';
   const brand = searchParams.get('brand') ?? undefined;
+  const status = (searchParams.get('status') as 'SELL' | 'RESERVE' | 'COMP') ?? undefined;
 
   const router = useRouter();
 
@@ -68,6 +69,7 @@ export default function SearchPage() {
             category={category}
             query={query}
             brand={brand}
+            status={status}
             delivery={delivery}
           />
         }
@@ -101,6 +103,7 @@ interface FilterListProps {
   query: string;
   brand?: string;
   delivery: boolean;
+  status?: 'SELL' | 'RESERVE' | 'COMP';
   category: string[];
 }
 
@@ -108,6 +111,7 @@ function FilterList({
   query,
   category: initialCategory,
   delivery: initialDelivery,
+  status: initialStatus,
   brand: initialBrand,
 }: FilterListProps) {
   const router = useRouter();
@@ -115,6 +119,7 @@ function FilterList({
   const [category, setCategory] = useState<string[]>(initialCategory);
   const [delivery, setDelivery] = useState<boolean>(initialDelivery);
   const [brand, setBrand] = useState<string | undefined>(initialBrand);
+  const [status, setStatus] = useState<'SELL' | 'RESERVE' | 'COMP' | undefined>(initialStatus);
 
   // load
   const [filters, setFilters] = useState<FilterResponse>();
@@ -139,6 +144,21 @@ function FilterList({
   return (
     <div className={styles.filterBar}>
       <div className={styles.filters}>
+        <FilterButton
+          options={['판매중', '예약됨', '판매완료']}
+          label="상태"
+          onSelect={(option) => {
+            switch (option) {
+              case '판매중':
+                return setStatus('SELL');
+              case '예약됨':
+                return setStatus('RESERVE');
+              case '판매완료':
+                return setStatus('COMP');
+            }
+            setStatus(undefined);
+          }}
+        />
         <FilterButton
           options={filters?.brandFilter.map((v) => v.name)}
           label={brand ?? '브랜드'}
@@ -189,7 +209,9 @@ function FilterList({
           router.push(
             `/search?q=${query}&delivery=${delivery}${category
               .map((v, i) => `&category${i}=${v}`)
-              .reduce((p, v) => p + v)}${brand ? `&brand=${brand}` : ''}`,
+              .reduce((p, v) => p + v)}${brand ? `&brand=${brand}` : ''}${
+              status ? `&status=${status}` : ''
+            }`,
           )
         }
       />
