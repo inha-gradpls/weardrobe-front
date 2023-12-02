@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styles from './productCardMini.module.css';
 import { BLUR_URL } from '@/utils/api';
+import { getImageUrl } from '@/utils/uiHelper';
 
 interface ProductCardMiniProps {
   id: number;
@@ -16,7 +17,7 @@ export default function ProductCardMini({ id, img, name, price }: ProductCardMin
         className={styles.thumb}
         width={35}
         height={35}
-        src={img ?? BLUR_URL}
+        src={getImageUrl(img)}
         alt="thumb"
         blurDataURL={BLUR_URL}
         placeholder="blur"

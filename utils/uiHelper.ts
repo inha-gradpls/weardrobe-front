@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useState } from 'react';
+import { API_BASE_URL, BLUR_URL } from './api';
 
 const DAY = 86400000;
 const HOUR = 3600000;
@@ -16,6 +17,12 @@ export function tsToDeltaStr(ts: string) {
 export function dateToStr(dateStr: string) {
   const date = new Date(dateStr);
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+export function getImageUrl(img?: string) {
+  if (img === undefined) return BLUR_URL;
+  if (img.startsWith('/')) return `${API_BASE_URL}${img}`;
+  else return img;
 }
 
 export function useInfiniteScroll<T>(
