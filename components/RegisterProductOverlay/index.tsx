@@ -41,7 +41,6 @@ export default function RegisterProductOverlay({ onClose }: RegisterProductOverl
 
         // simple validation
         for (const [k, v] of Object.entries(data)) {
-          console.log(k, v);
           if (isNaN(v) || v === '' || v === undefined || v === null) {
             alert('내용을 확인해 주세요');
             return;

@@ -43,7 +43,6 @@ export default function SignupPage() {
             phoneNumber: json.phoneNumber as string,
           };
 
-          console.log(json);
           // simple validation
           if (!data.gender || !data.name || !data.phoneNumber || !data.age || !data.nickname) {
             alert('내용을 확인해 주세요');
