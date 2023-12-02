@@ -7,10 +7,11 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getHomeFeed(
   order: ProductOrder,
+  page: number,
   signal?: AbortSignal,
 ): Promise<HomeFeedResponse | undefined> {
   return (
-    await httpGet(`${API_BASE_URL}/home?filter=${order}&direction=DESC`, true, signal)
+    await httpGet(`${API_BASE_URL}/home?filter=${order}&direction=DESC&page=${page}`, true, signal)
   )?.json();
 }
 

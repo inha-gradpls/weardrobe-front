@@ -30,16 +30,16 @@ export function useInfiniteScroll<T>(
   pageSize: number,
   lastItemRef: RefObject<HTMLElement>,
 ) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const [result, setResult] = useState<T[]>([]);
   const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
     return () => {
-      setPage(0);
+      setPage(1);
       setResult([]);
-      setLoading(false);
+      setLoading(true);
     };
   }, [api]);
 
