@@ -5,7 +5,6 @@ import TopBar from '../TopBar';
 import IconButton from '../Button/IconButton';
 import { getFilters, registerProduct } from '@/utils/api';
 import Input from '../Input';
-import { useSearch } from '../SearchOverlay';
 import { useEffect, useState } from 'react';
 import FilterButton from '../Button/FilterButton';
 import { useRouter } from 'next/navigation';
@@ -23,33 +22,32 @@ export default function RegisterProductOverlay({ onClose }: RegisterProductOverl
       onSubmit={(e) => {
         e.preventDefault();
         if (loading) return;
+        setLoading(true);
         // read form data to json
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
-        const json = Object.fromEntries(formData.entries());
-
-        // create data
-        const data: ProductFormData = {
-          name: json.name as string,
-          deliveryAvailable: (json.deliverAvailable as string) === '가능',
-          price: parseInt(json.price as string),
-          description: json.description as string,
-          categoryName: json.categoryName as string,
-          brandName: json.brandName as string,
-          productImage: json.productImage as File,
-        };
 
         // simple validation
-        for (const [k, v] of Object.entries(data)) {
-          if (isNaN(v) || v === '' || v === undefined || v === null) {
-            alert('내용을 확인해 주세요');
-            return;
-          }
+        if (
+          !formData.get('name') ||
+          !formData.get('price') ||
+          !formData.get('brandName') ||
+          !formData.get('categoryName') ||
+          !formData.get('deliveryAvailable') ||
+          !formData.get('description') ||
+          !formData.get('productImage')
+        ) {
+          alert('내용을 확인해 주세요');
+          setLoading(false);
+          return;
         }
+
+        const deliveryAvailable = formData.get('deliveryAvailable')?.toString() ?? '';
+        formData.set('deliveryAvailable', deliveryAvailable === '가능' ? 'true' : 'false');
 
         // request
         (async () => {
-          const res = await registerProduct(data);
+          const res = await registerProduct(formData);
           if (res === undefined) {
             alert('실패');
             setLoading(false);
@@ -79,20 +77,22 @@ export default function RegisterProductOverlay({ onClose }: RegisterProductOverl
           <h3 style={{ textAlign: 'center', width: '100%' }}>상품 등록</h3>
         </TopBar>
         <div className={`innerContent ${styles.container}`}>
-          <p>제품명</p>
-          <Input name="name" />
-          <p>가격</p>
-          <Input name="price" type="number" />
-          <p>택배 가능</p>
-          <LinearSelector options={['가능', '불가']} name="deliveryAvailable" />
-          <p>카테고리</p>
-          <CategorySelector name="categoryName" />
-          <p>브랜드명</p>
-          <Input name="brandName" />
-          <p>상세 설명</p>
-          <Input name="description" type="textArea" />
-          <p>제품 이미지</p>
-          <Input name="productImage" type="file" accept="image/png" />
+          {loading && <p>등록중..</p>}
+          {!loading && (
+            <>
+              <p>제품명</p>
+              <Input name="name" />
+              <p>가격</p>
+              <Input name="price" type="number" />
+              <p>택배 가능</p>
+              <LinearSelector options={['가능', '불가']} name="deliveryAvailable" />
+              <CategoryBrandSelector />
+              <p>상세 설명</p>
+              <Input name="description" type="textArea" />
+              <p>제품 이미지</p>
+              <Input name="productImage" type="file" accept="image/png" />
+            </>
+          )}
         </div>
       </BottomModal>
     </form>
@@ -124,14 +124,11 @@ function LinearSelector({ options, name }: LinearSelectorProps) {
   );
 }
 
-interface CategorySelectorProps {
-  name: string;
-}
-
-function CategorySelector({ name }: CategorySelectorProps) {
+function CategoryBrandSelector() {
   // load
   const [filters, setFilters] = useState<FilterResponse>();
   const [category, setCategory] = useState<string[]>([]);
+  const [brand, setBrand] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -152,42 +149,56 @@ function CategorySelector({ name }: CategorySelectorProps) {
           .map((v) => v.name);
 
   return (
-    <div className={styles.categories}>
-      {category.map((v, i) => {
-        return (
+    <>
+      <p>카테고리</p>
+      <div className={styles.categories}>
+        {category.map((v, i) => {
+          return (
+            <FilterButton
+              key={`category-${i}`}
+              options={
+                i === 0
+                  ? filters?.categoryFilter.filter((v) => v.parentId === null).map((v) => v.name)
+                  : filters?.categoryFilter
+                      .filter((v) => v.parentName === category[i - 1])
+                      .map((v) => v.name)
+              }
+              label={category[i]}
+              onSelect={(option) => {
+                if (option === undefined) return;
+                setCategory((state) => [...state.slice(0, i), option]);
+              }}
+            />
+          );
+        })}
+        {lastCategory?.length !== 0 && (
           <FilterButton
-            key={`category-${i}`}
-            options={
-              i === 0
-                ? filters?.categoryFilter.filter((v) => v.parentId === null).map((v) => v.name)
-                : filters?.categoryFilter
-                    .filter((v) => v.parentName === category[i - 1])
-                    .map((v) => v.name)
-            }
-            label={category[i]}
+            key={`category-${category.length - 1}`}
+            options={lastCategory}
+            label="카테고리"
             onSelect={(option) => {
               if (option === undefined) return;
-              setCategory((state) => [...state.slice(0, i), option]);
+              setCategory([...category, option]);
             }}
           />
-        );
-      })}
-      {lastCategory?.length !== 0 && (
-        <FilterButton
-          key={`category-${category.length - 1}`}
-          options={lastCategory}
-          label="카테고리"
-          onSelect={(option) => {
-            if (option === undefined) return;
-            setCategory([...category, option]);
-          }}
+        )}
+        <input
+          type="hidden"
+          name="categoryName"
+          defaultValue={category.length > 1 ? category[1] : undefined}
         />
-      )}
-      <input
-        type="hidden"
-        name={name}
-        defaultValue={category.length > 0 ? category[category.length - 1] : undefined}
+      </div>
+      <p>브랜드명</p>
+      <FilterButton
+        key={'brand'}
+        options={filters?.brandFilter.map((v) => v.name)}
+        label="브랜드"
+        onSelect={(option) => {
+          if (option === undefined) return;
+          setBrand(option);
+        }}
       />
-    </div>
+      <input type="hidden" name="brandName" defaultValue={brand} />
+    </>
   );
 }
