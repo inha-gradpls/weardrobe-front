@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { generateViton, getWardrobeData } from '@/utils/api';
 import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
+import { getImageUrl } from '@/utils/uiHelper';
 
 export default function WardrobePage() {
   const [data, setData] = useState<WardrobeData>();
@@ -46,7 +47,7 @@ export default function WardrobePage() {
         <div className={`innerContent ${styles.container}`}>
           <div className={styles.resultContainer}>
             <Image
-              src={result ?? '/example.png'}
+              src={getImageUrl(result)}
               alt="viton result"
               width={0}
               height={0}
@@ -131,7 +132,13 @@ interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
 function CarouselItem({ image, selected, name, ...props }: CarouselItemProps) {
   return (
     <div className={`${styles.carouselItem} ${selected && styles.selected}`} {...props}>
-      <Image src={image} alt={''} width={100} height={100} style={{ objectFit: 'fill' }} />
+      <Image
+        src={getImageUrl(image)}
+        alt={''}
+        width={100}
+        height={100}
+        style={{ objectFit: 'fill' }}
+      />
       {name && <p className={styles.name}>{name}</p>}
     </div>
   );

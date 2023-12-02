@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import styles from './productCard.module.css';
 import { BLUR_URL } from '@/utils/api';
-import { useRouter } from 'next/navigation';
+import { getImageUrl } from '@/utils/uiHelper';
 interface ProductCardProps {
   id: number;
   img?: string;
@@ -29,7 +29,7 @@ export default function ProductCard({
     <div className={styles.container} onClick={onClick}>
       <Image
         className={styles.thumb}
-        src={img ?? BLUR_URL}
+        src={getImageUrl(img)}
         alt={'product thumbnail'}
         blurDataURL={BLUR_URL}
         placeholder="blur"

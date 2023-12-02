@@ -4,6 +4,12 @@
   position: relative;
 }
 
+.loading {
+  text-align: center;
+  line-height: 50px;
+  min-height: 50px;
+}
+
 .products {
   flex: 1;
   display: flex;

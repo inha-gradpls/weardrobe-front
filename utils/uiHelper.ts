@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useState } from 'react';
+import { API_BASE_URL, BLUR_URL } from './api';
 
 const DAY = 86400000;
 const HOUR = 3600000;
@@ -18,20 +19,27 @@ export function dateToStr(dateStr: string) {
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 }
 
+export function getImageUrl(img?: string) {
+  if (img === undefined) return BLUR_URL;
+  if (img.startsWith('/')) return `${API_BASE_URL}${img}`;
+  else return img;
+}
+
 export function useInfiniteScroll<T>(
   api: (page: number, pageSize: number) => Promise<T[] | undefined>,
   pageSize: number,
   lastItemRef: RefObject<HTMLElement>,
 ) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
   const [result, setResult] = useState<T[]>([]);
+  const [lastPage, setLastPage] = useState<boolean>(false);
 
   useEffect(() => {
     return () => {
-      setPage(0);
+      setPage(1);
       setResult([]);
-      setLoading(false);
+      setLoading(true);
     };
   }, [api]);
 
@@ -39,6 +47,7 @@ export function useInfiniteScroll<T>(
     (async () => {
       const res = await api(page, pageSize);
       if (res === undefined) return;
+      if (res.length < 10) setLastPage(true);
       setResult((state) => {
         // 요청한 시점(바로 이전 페이지) 까지만 사용
         return [...state.slice(0, pageSize * (page - 1)), ...res];
@@ -50,7 +59,7 @@ export function useInfiniteScroll<T>(
   // intersection observer for infinite load
   useEffect(() => {
     // dont observe if loading or last page reached
-    if (loading || lastItemRef.current === null) return;
+    if (loading || lastItemRef.current === null || lastPage) return;
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       setLoading(true);
@@ -59,7 +68,7 @@ export function useInfiniteScroll<T>(
     });
     observer.observe(lastItemRef.current);
     return () => observer.disconnect();
-  }, [lastItemRef, loading, page]);
+  }, [lastItemRef, lastPage, loading, page]);
 
   return { page, loading, setPage, setLoading, result };
 }

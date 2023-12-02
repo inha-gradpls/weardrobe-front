@@ -3,13 +3,23 @@ import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
 import Input from '@/components/Input';
 import FilterButton from '@/components/Button/FilterButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
 import { signUp } from '@/utils/api';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 export default function SignupPage() {
   const [gender, setGender] = useState<'M' | 'F'>();
   const router = useRouter();
+  const params = useSearchParams();
+
+  const access = params.get('accessToken');
+
+  // access
+  useEffect(() => {
+    if (access) sessionStorage.setItem('accessToken', `Bearer ${access}`);
+  }, [access]);
+
   return (
     <>
       <TopBar backButton={false}>
@@ -33,7 +43,6 @@ export default function SignupPage() {
             phoneNumber: json.phoneNumber as string,
           };
 
-          console.log(json);
           // simple validation
           if (!data.gender || !data.name || !data.phoneNumber || !data.age || !data.nickname) {
             alert('내용을 확인해 주세요');
@@ -48,7 +57,6 @@ export default function SignupPage() {
           }
 
           // success
-          // TODO: should request refresh token?
           router.push('/');
         }}
       >

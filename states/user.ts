@@ -1,10 +1,6 @@
-import { getUserInfo } from '@/utils/api';
-import { userInfo } from 'os';
 import { create } from 'zustand';
 
 interface UserState {
-  accessToken?: string;
-  refreshToken?: string;
   userInfo?: UserInfo;
 }
 
@@ -14,8 +10,6 @@ interface UserActions {
 }
 
 const initialState: UserState = {
-  accessToken: undefined,
-  refreshToken: undefined,
   userInfo: undefined,
 };
 

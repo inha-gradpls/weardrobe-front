@@ -7,7 +7,7 @@ import TopBar from '@/components/TopBar';
 import Image from 'next/image';
 import IconButton from '@/components/Button/IconButton';
 import 'material-symbols';
-import { tsToDeltaStr } from '@/utils/uiHelper';
+import { getImageUrl, tsToDeltaStr } from '@/utils/uiHelper';
 import UserCard from '@/components/UserCard';
 
 interface ProductDetailPageProps {
@@ -25,19 +25,26 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   // fetch user info
   useEffect(() => {
+    const controller = new AbortController();
     (async () => {
-      const res = await getUserInfo();
+      const res = await getUserInfo(undefined, controller.signal);
       if (res === undefined) return;
       setUserInfo(res);
     })();
+    return () => controller.abort();
   }, [setUserInfo]);
 
   // fetch product info
   useEffect(() => {
+    if (productId === -1) return;
+    const controller = new AbortController();
     (async () => {
-      const res = await getProductInfo(productId);
+      const res = await getProductInfo(productId, controller.signal);
       setProductInfo(res);
     })();
+    return () => {
+      controller.abort();
+    };
   }, [productId]);
 
   const isSeller =
@@ -55,7 +62,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div className={`innerContent ${styles.container}`}>
             <div className={styles.photo}>
               <Image
-                src={productInfo.productImage}
+                quality={100}
+                src={getImageUrl(productInfo.productImage)}
                 alt=""
                 width={0}
                 height={0}

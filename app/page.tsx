@@ -1,26 +1,41 @@
 'use client';
 import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { getHomeFeed } from '@/utils/api';
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { API_BASE_URL, getHomeFeed } from '@/utils/api';
 import ProductCard from '@/components/ProductCard';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import IconButton from '@/components/Button/IconButton';
 import { useSearch } from '../components/SearchOverlay';
 import { createPortal } from 'react-dom';
 import RegisterProductOverlay from '@/components/RegisterProductOverlay';
+import { useUser } from '@/states/user';
+import { useInfiniteScroll } from '@/utils/uiHelper';
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
   const [order, setOrder] = useState<ProductOrder>('createdDate');
   const router = useRouter();
+  const params = useSearchParams();
+
+  const access = params.get('accessToken');
+  const refresh = params.get('refreshToken');
 
   useEffect(() => {
-    (async () => {
-      const newProducts = await getHomeFeed(order);
-      setProducts(newProducts);
-    })();
-  }, [order, setProducts]);
+    if (access) sessionStorage.setItem('accessToken', `Bearer ${access}`);
+    if (refresh) localStorage.setItem('refreshToken', `Bearer ${refresh}`);
+    router.replace('/');
+  }, [access, refresh, router]);
+
+  const loadHome = useCallback(
+    async (page: number, pageSize: number) => {
+      return await getHomeFeed(order, page);
+    },
+    [order],
+  );
+
+  const lastItemRef = useRef<HTMLDivElement>(null);
+
+  const { loading, result } = useInfiniteScroll<ProductInfo>(loadHome, 10, lastItemRef);
 
   const { search, setSearch, searchOverlay } = useSearch();
   const [register, setRegister] = useState<boolean>(false);
@@ -48,12 +63,13 @@ export default function Home() {
       </TopBar>
       <div className={`innerContent ${styles.container}`}>
         <div className={styles.products}>
-          {products.map((v) => (
+          {result.map((v) => (
             <ProductCard
               key={v.id}
               id={v.id}
               name={v.name}
-              category={v.categoryId.toString()}
+              img={`${API_BASE_URL}${v.productImage}`}
+              category={v.categoryName}
               price={v.price}
               viewCount={v.viewCount}
               likeCount={0}
@@ -61,6 +77,9 @@ export default function Home() {
               onClick={() => router.push(`/products/${v.id}`)}
             />
           ))}
+          <div ref={lastItemRef} className={styles.loading}>
+            {loading && <p>로드중</p>}
+          </div>
         </div>
         <div className={styles.floatingButton}>
           <IconButton

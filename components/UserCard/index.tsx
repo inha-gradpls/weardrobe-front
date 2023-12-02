@@ -3,6 +3,7 @@ import styles from './userCard.module.css';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from '@/utils/api';
 import Link from 'next/link';
+import { getImageUrl } from '@/utils/uiHelper';
 
 interface UserCardProps {
   userId: number;
@@ -41,7 +42,7 @@ export default function UserCard({ userId, nickname, profilePic, large = false }
       <div className={`${styles.container} ${large && styles.largeText}`}>
         <div className={`${styles.photo} ${large && styles.large}`}>
           <Image
-            src={data.imageUrl}
+            src={getImageUrl(data.imageUrl)}
             alt={'profile picture'}
             width={imgSize}
             height={imgSize}
