@@ -60,7 +60,7 @@ export async function getSearchResult(
 
   return (
     await httpGet(
-      `${API_BASE_URL}/search?productName=${query}&page=${page}${categoryQuery}${brandQuery}${deliveryQuery}${statusQuery}`,
+      `${API_BASE_URL}/products?productName=${query}&page=${page}${categoryQuery}${brandQuery}${deliveryQuery}${statusQuery}`,
       true,
       signal,
     )
@@ -96,7 +96,7 @@ export async function signUp(
 }
 
 export async function registerProduct(
-  data: ProductFormData,
+  data: FormData,
   signal?: AbortSignal,
 ): Promise<RegisterProductResponse | undefined> {
   const res = await httpPost(`${API_BASE_URL}/products`, data, false, true, signal);
