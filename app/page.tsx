@@ -104,7 +104,7 @@ interface OrderSelectionProps {
 
 function OrderSelection({ order, setOrder }: OrderSelectionProps) {
   return (
-    <div className={styles.OrderContainer}>
+    <div style={{ display: 'flex', flexDirection: 'row', padding: '10px', gap: '10px' }}>
       <IconButton
         label="최근"
         onClick={() => setOrder('createdDate')}
