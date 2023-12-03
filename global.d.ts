@@ -132,3 +132,12 @@ interface RegisterImageResponse {
   id: number;
   type: string;
 }
+
+interface CommentItem {
+  id: number;
+  content: string;
+  userId: number;
+  userImageUrl: string;
+  userNickname: string;
+  createdDate: string;
+}

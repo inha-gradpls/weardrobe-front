@@ -14,6 +14,18 @@ export async function httpGet(url: string, retry: boolean = true, signal?: Abort
   return doGetRes(getRes, headers, retry, signal);
 }
 
+export async function httpDelete(url: string, retry: boolean = true, signal?: AbortSignal) {
+  const headers = createHeaders();
+  const getRes = (headers: Headers, signal?: AbortSignal) =>
+    fetch(url, {
+      method: 'DELETE',
+      headers: headers,
+      signal: signal,
+    });
+
+  return doGetRes(getRes, headers, retry, signal);
+}
+
 export async function httpPost(
   url: string,
   body: any,
