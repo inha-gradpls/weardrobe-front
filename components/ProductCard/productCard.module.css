@@ -3,7 +3,6 @@
   flex-direction: row;
   height: 93px;
   gap: 8px;
-  max-width: 500px;
   background-color: var(--background);
   padding: 8px;
   user-select: none;

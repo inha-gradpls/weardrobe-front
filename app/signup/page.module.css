@@ -1,0 +1,12 @@
+.container {
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.submit {
+  margin-top: 20px;
+  align-self: center;
+}

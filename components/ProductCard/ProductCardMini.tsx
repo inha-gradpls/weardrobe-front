@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import styles from './productCardMini.module.css';
 import { BLUR_URL } from '@/utils/api';
+import { getImageUrl } from '@/utils/uiHelper';
+import Link from 'next/link';
 
 interface ProductCardMiniProps {
   id: number;
@@ -11,12 +13,12 @@ interface ProductCardMiniProps {
 
 export default function ProductCardMini({ id, img, name, price }: ProductCardMiniProps) {
   return (
-    <div className={styles.container}>
+    <Link className={styles.container} href={`/products/${id}`}>
       <Image
         className={styles.thumb}
         width={35}
         height={35}
-        src={img ?? BLUR_URL}
+        src={getImageUrl(img)}
         alt="thumb"
         blurDataURL={BLUR_URL}
         placeholder="blur"
@@ -25,6 +27,6 @@ export default function ProductCardMini({ id, img, name, price }: ProductCardMin
         <p>{name}</p>
         <p>{`${price} 원`}</p>
       </div>
-    </div>
+    </Link>
   );
 }

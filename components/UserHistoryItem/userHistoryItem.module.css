@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  flex: 0;
+}
+
+.date {
+  font-size: 13px;
+  color: gray;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+  align-items: center;
+}
+
+.badge {
+  flex: 0 0 55px;
+  text-align: center;
+  padding: 10px;
+  background-color: var(--empty);
+}

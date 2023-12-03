@@ -1,0 +1,45 @@
+.container {
+  position: relative;
+
+  font-size: 15px;
+}
+
+.buttonContainer {
+  cursor: pointer;
+  overflow: hidden;
+  background-color: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 3px 10px;
+  gap: 5px;
+}
+
+.optionsList {
+  border: 1px solid var(--empty);
+  z-index: 10;
+  background-color: white;
+  position: absolute;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  width: 100%;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.optionItem {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: var(--accent-light);
+}
+
+.text {
+}

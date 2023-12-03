@@ -1,11 +1,29 @@
 .container {
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 10px;
-  background-color: var(--background);
-  border-radius: 5px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: var(--empty);
+  border-radius: 50px;
+  padding: 5px 10px;
   gap: 5px;
+}
+
+.primary {
+  background-color: var(--accent-dark);
+  color: var(--background);
+}
+
+.secondary {
+  background-color: var(--accent-light);
+}
+
+.transparent {
+  background-color: transparent;
 }
 
 .icon {
