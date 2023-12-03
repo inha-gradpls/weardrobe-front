@@ -3,9 +3,11 @@ import TopBar from '@/components/TopBar';
 import styles from './page.module.css';
 import Image from 'next/image';
 import { generateViton, getWardrobeData } from '@/utils/api';
-import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction, useCallback, useEffect, useState } from 'react';
 import IconButton from '@/components/Button/IconButton';
 import { getImageUrl } from '@/utils/uiHelper';
+import { createPortal } from 'react-dom';
+import RegisterImageOverlay from '@/components/RegisterImageOverlay';
 
 export default function WardrobePage() {
   const [data, setData] = useState<WardrobeData>();
@@ -16,13 +18,17 @@ export default function WardrobePage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<string>();
 
-  useEffect(() => {
-    (async () => {
-      const res = await getWardrobeData();
-      if (res === undefined) return;
-      setData(res);
-    })();
+  const [upload, setUpload] = useState<boolean>(false);
+
+  const loadWardrobeData = useCallback(async () => {
+    const res = await getWardrobeData();
+    if (res === undefined) return;
+    setData(res);
   }, []);
+
+  useEffect(() => {
+    loadWardrobeData();
+  }, [loadWardrobeData]);
 
   const generateResult = async () => {
     if (user === undefined || cloth === undefined) {
@@ -60,12 +66,13 @@ export default function WardrobePage() {
             />
             {loading && <p className={styles.name}>로드중</p>}
           </div>
-          <form className={styles.carouselContainer}>
+          <div className={styles.carouselContainer}>
             <Carousel
               selected={user}
               setSelected={setUser}
-              category="사람"
+              category="인물"
               items={data.wardrobeUser}
+              onAdd={() => setUpload(true)}
             />
             <Carousel
               wrap={true}
@@ -74,7 +81,7 @@ export default function WardrobePage() {
               category="찜한 상품"
               items={data.favoriteProduct}
             />
-          </form>
+          </div>
           <div className={styles.bottom}>
             <IconButton
               label="이미지 생성"
@@ -89,6 +96,18 @@ export default function WardrobePage() {
           </div>
         </div>
       )}
+      {upload &&
+        createPortal(
+          <RegisterImageOverlay
+            onClose={(res) => {
+              if (res) {
+                loadWardrobeData();
+              }
+              setUpload(false);
+            }}
+          />,
+          document.body,
+        )}
     </>
   );
 }
@@ -98,13 +117,18 @@ interface CarouselProps {
   items: UserItem[] | ClothItem[];
   selected: number | undefined;
   wrap?: boolean;
+  onAdd?: () => void;
   setSelected: Dispatch<SetStateAction<number | undefined>>;
 }
 
-function Carousel({ selected, setSelected, category, items, wrap = false }: CarouselProps) {
+function Carousel({ selected, setSelected, category, items, wrap = false, onAdd }: CarouselProps) {
   return (
     <div className={styles.carousel}>
-      <p>{category}</p>
+      <div className={styles.carouselHeader}>
+        <p>{category}</p>
+        {onAdd && <IconButton onClick={onAdd} label="추가" />}
+      </div>
+
       <div className={`${styles.carouselItems} ${wrap && styles.wrap}`}>
         {items.map((v) => {
           const image = getImageFromItem(v);

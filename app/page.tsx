@@ -66,14 +66,15 @@ export default function Home() {
           {result.map((v) => (
             <ProductCard
               key={v.id}
+              status={v.status}
               id={v.id}
               name={v.name}
               img={`${API_BASE_URL}${v.productImage}`}
               category={v.categoryName}
               price={v.price}
               viewCount={v.viewCount}
-              likeCount={0}
-              commentCount={0}
+              likeCount={v.heartCount}
+              commentCount={v.commentCount}
               onClick={() => router.push(`/products/${v.id}`)}
             />
           ))}
@@ -104,7 +105,7 @@ interface OrderSelectionProps {
 
 function OrderSelection({ order, setOrder }: OrderSelectionProps) {
   return (
-    <div className={styles.OrderContainer}>
+    <div style={{ display: 'flex', flexDirection: 'row', padding: '10px', gap: '10px' }}>
       <IconButton
         label="최근"
         onClick={() => setOrder('createdDate')}

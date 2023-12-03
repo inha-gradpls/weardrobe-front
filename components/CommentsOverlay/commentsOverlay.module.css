@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 5px;
+  overflow-y: hidden;
+}
+
+.loading {
+  text-align: center;
+  line-height: 50px;
+  min-height: 50px;
+}
+
+.items {
+  flex: 1;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.input {
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 50px;
+  border: 1px solid var(--empty);
+  border-radius: 20px;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.date {
+  font-size: 13px;
+  color: grey;
+}
+
+.badge {
+  background-color: var(--accent-light);
+  font-size: 12px;
+  padding: 5px;
+  text-align: center;
+}

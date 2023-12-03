@@ -1,5 +1,4 @@
 'use client';
-import { useNavigation } from '@/states/navigation';
 import styles from './navigationBar.module.css';
 import 'material-symbols';
 import { useState } from 'react';

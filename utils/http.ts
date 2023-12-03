@@ -1,10 +1,24 @@
 import { API_BASE_URL } from './api';
 
+export const NEED_LOGIN = 'need_login';
+
 export async function httpGet(url: string, retry: boolean = true, signal?: AbortSignal) {
   const headers = createHeaders();
   const getRes = (headers: Headers, signal?: AbortSignal) =>
     fetch(url, {
       method: 'GET',
+      headers: headers,
+      signal: signal,
+    });
+
+  return doGetRes(getRes, headers, retry, signal);
+}
+
+export async function httpDelete(url: string, retry: boolean = true, signal?: AbortSignal) {
+  const headers = createHeaders();
+  const getRes = (headers: Headers, signal?: AbortSignal) =>
+    fetch(url, {
+      method: 'DELETE',
       headers: headers,
       signal: signal,
     });
@@ -31,9 +45,12 @@ export async function httpPost(
     });
   return doGetRes(getRes, headers, retry, signal);
 }
+
 async function refreshToken(signal?: AbortSignal) {
   const res = await httpPost(`${API_BASE_URL}/auth/refresh`, undefined, false, false, signal, true);
-  if (!res || res.status !== 200) return undefined;
+  if (!res || res.status !== 200) {
+    return undefined;
+  }
 
   // update tokens
   const refresh = res.headers.get('Authorization-Refresh') ?? undefined;
@@ -46,7 +63,10 @@ async function refreshToken(signal?: AbortSignal) {
 
 async function preRetry(headers: Headers, signal?: AbortSignal) {
   const newTokens = await refreshToken(signal);
-  if (!newTokens) return false;
+  if (!newTokens) {
+    if (!signal?.aborted) document.dispatchEvent(new CustomEvent(NEED_LOGIN));
+    return false;
+  }
   const access = newTokens.access ?? sessionStorage.getItem('accessToken');
   if (!access) return false;
   headers.set('Authorization', access);
@@ -76,10 +96,10 @@ async function doGetRes(
 function createHeaders(refresh: boolean = false) {
   const headers = new Headers();
   const accessToken = sessionStorage.getItem('accessToken');
-  if (accessToken && accessToken.length > 0) headers.set('Authorization', accessToken);
   if (refresh) {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken && refreshToken.length > 0) headers.set('Authorization-Refresh', refreshToken);
-  }
+  } else if (accessToken && accessToken.length > 0) headers.set('Authorization', accessToken);
+
   return headers;
 }

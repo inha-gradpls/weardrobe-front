@@ -46,12 +46,15 @@ interface ProductInfo {
   deliveryAvailable?: boolean;
   productImage: string;
   description?: string;
-  status?: 'SELL' | 'BUY';
-  createDate: string;
+  status?: ProductState;
+  favorite?: boolean;
+  createdDate: string;
   viewCount: number;
   heartCount: number;
   commentCount: number;
 }
+
+type ProductState = 'SELL' | 'RESERVE' | 'COMP';
 
 type ProductInfoResponse = ProductInfo;
 
@@ -115,4 +118,28 @@ interface ProductFormData {
 
 interface RegisterProductResponse {
   id: number;
+}
+
+type UserHistoryType = 'sell' | 'buy' | 'favorite';
+interface UserHistory {
+  id: number;
+  name: string;
+  price: number;
+  productImage: string;
+  createdDate: string;
+  history: UserHistoryType;
+}
+
+interface RegisterImageResponse {
+  id: number;
+  type: string;
+}
+
+interface CommentItem {
+  id: number;
+  content: string;
+  userId: number;
+  userImageUrl: string;
+  userNickname: string;
+  createdDate: string;
 }

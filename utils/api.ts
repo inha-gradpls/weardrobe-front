@@ -1,5 +1,5 @@
 import { useUser } from '@/states/user';
-import { httpGet, httpPost } from './http';
+import { httpDelete, httpGet, httpPost } from './http';
 
 export const BLUR_URL =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
@@ -103,6 +103,64 @@ export async function registerProduct(
   const res = await httpPost(`${API_BASE_URL}/products`, data, false, true, signal);
   if (!res || res.status !== 200) return undefined;
   return await res.json();
+}
+
+export async function getMyProducts(
+  page: number,
+  signal?: AbortSignal,
+): Promise<ProductInfo[] | undefined> {
+  return (await httpGet(`${API_BASE_URL}/users/my/products?page=${page}`, true, signal))?.json();
+}
+
+export async function getMyHistory(
+  page: number,
+  filter: string,
+  signal?: AbortSignal,
+): Promise<UserHistory[] | undefined> {
+  return (
+    await httpGet(`${API_BASE_URL}/users/my/history?page=${page}&history=${filter}`, true, signal)
+  )?.json();
+}
+
+export async function registerWardrobeImage(
+  data: FormData,
+  signal?: AbortSignal,
+): Promise<RegisterImageResponse | undefined> {
+  return (await httpPost(`${API_BASE_URL}/users/my/wardrobe`, data, false, true, signal))?.json();
+}
+
+export async function updateFavorite(id: number, favorite: boolean, signal?: AbortSignal) {
+  const url = `${API_BASE_URL}/products/${id}/favorite`;
+  if (favorite) return await httpPost(url, undefined, false, true, signal);
+  return await httpDelete(url, true, signal);
+}
+
+export async function getComments(id: number, page: number): Promise<CommentItem[] | undefined> {
+  return (await httpGet(`${API_BASE_URL}/products/${id}/comments?page=${page}`))?.json();
+}
+
+export async function registerComment(id: number, comment: string, signal?: AbortSignal) {
+  return (
+    await httpPost(
+      `${API_BASE_URL}/products/${id}/comments`,
+      { content: comment },
+      true,
+      true,
+      signal,
+    )
+  )?.json();
+}
+
+export async function updateProductStatus(id: number, status: ProductState, signal?: AbortSignal) {
+  return (
+    await httpPost(
+      `${API_BASE_URL}/products/${id}/status`,
+      { status: status, buyerId: null },
+      true,
+      true,
+      signal,
+    )
+  )?.json;
 }
 
 export const lipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pulvinar, nulla quis viverra venenatis, metus sapien blandit urna, nec tristique sem justo non justo. Pellentesque semper massa nec dapibus luctus. Vestibulum facilisis ornare augue vel semper. Pellentesque id faucibus augue. Quisque ullamcorper tempor magna eget molestie. Etiam mattis a velit quis porttitor. Sed et posuere sapien, non convallis elit. Mauris tempor, metus non auctor accumsan, ante lacus posuere augue, ac scelerisque sem nunc luctus arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;

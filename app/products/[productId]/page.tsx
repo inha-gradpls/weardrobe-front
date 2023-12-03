@@ -2,13 +2,15 @@
 import { useUser } from '@/states/user';
 import styles from './page.module.css';
 import { useEffect, useState } from 'react';
-import { getProductInfo, getUserInfo } from '@/utils/api';
+import { getProductInfo, getUserInfo, updateProductStatus, updateFavorite } from '@/utils/api';
 import TopBar from '@/components/TopBar';
 import Image from 'next/image';
 import IconButton from '@/components/Button/IconButton';
 import 'material-symbols';
-import { getImageUrl, tsToDeltaStr } from '@/utils/uiHelper';
+import { getImageUrl, statusToStr, tsToDeltaStr } from '@/utils/uiHelper';
 import UserCard from '@/components/UserCard';
+import { createPortal } from 'react-dom';
+import CommentsOverlay from '@/components/CommentsOverlay';
 
 interface ProductDetailPageProps {
   params: { productId: string };
@@ -17,6 +19,9 @@ interface ProductDetailPageProps {
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const productId = parseInt(params.productId) ?? -1;
   const [productInfo, setProductInfo] = useState<ProductInfo | undefined>();
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [comments, setComments] = useState<boolean>(false);
+  const [status, setStatus] = useState<ProductState>();
 
   const { userInfo, setUserInfo } = useUser((state) => ({
     userInfo: state.userInfo,
@@ -41,11 +46,30 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     (async () => {
       const res = await getProductInfo(productId, controller.signal);
       setProductInfo(res);
+      setFavorite(res?.favorite ?? false);
+      setStatus(res?.status);
     })();
     return () => {
       controller.abort();
     };
   }, [productId]);
+
+  const setStatusApi = (state: ProductState) => {
+    (async () => {
+      const res = await updateProductStatus(productId, state);
+      if (!res) return;
+      setStatus(state);
+    })();
+  };
+
+  // setFavorite
+  const setFavoriteApi = (state: boolean) => {
+    (async () => {
+      const res = await updateFavorite(productId, state);
+      if (!res) return;
+      setFavorite(state);
+    })();
+  };
 
   const isSeller =
     userInfo !== undefined && productInfo !== undefined && userInfo?.id === productInfo?.sellerId;
@@ -76,10 +100,10 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               />
             </div>
             <div className={styles.content}>
-              <h3>{productInfo.name}</h3>
+              <h3>{`${productInfo.name} [${statusToStr(status)}]`}</h3>
               <UserCard userId={productInfo.sellerId ?? 0} />
               <div className={styles.infoContainer}>
-                <p>{tsToDeltaStr(productInfo.createDate)}</p>
+                <p>{tsToDeltaStr(productInfo.createdDate)}</p>
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>visibility</span>
                 <p>{productInfo.viewCount}</p>
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>favorite</span>
@@ -90,9 +114,45 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <p>{productInfo.description}</p>
             </div>
           </div>
-          <BottomBar isSeller={isSeller} productId={productId} price={productInfo.price} />
+          <div className={styles.bottomBar}>
+            <p className={styles.price}>{`${productInfo.price} 원`}</p>
+            {isSeller && (
+              <>
+                <IconButton
+                  onClick={() => setStatusApi('SELL')}
+                  label="판매중"
+                  styleType={status === 'SELL' ? 'secondary' : 'none'}
+                />
+                <IconButton
+                  onClick={() => setStatusApi('COMP')}
+                  label="판매완료"
+                  styleType={status === 'COMP' ? 'secondary' : 'none'}
+                />
+                <IconButton
+                  onClick={() => setStatusApi('RESERVE')}
+                  label="예약"
+                  styleType={status === 'RESERVE' ? 'secondary' : 'none'}
+                />
+              </>
+            )}
+            <IconButton
+              onClick={() => setFavoriteApi(!favorite)}
+              label="찜"
+              styleType={favorite ? 'secondary' : 'none'}
+            />
+            <IconButton onClick={() => setComments(true)} label="댓글" styleType="primary" />
+          </div>
         </>
       )}
+      {comments &&
+        createPortal(
+          <CommentsOverlay
+            id={productId}
+            onClose={() => setComments(false)}
+            sellerId={productInfo?.sellerId ?? 0}
+          />,
+          document.body,
+        )}
     </>
   );
 }
@@ -107,49 +167,6 @@ function UserActions({ isSeller }: UserActionsProps) {
     <>
       <IconButton onClick={() => {}} icon="edit" styleType="transparent" />
       <IconButton onClick={() => {}} icon="delete" styleType="transparent" />
-    </>
-  );
-}
-
-interface BottomBarProps {
-  isSeller: boolean;
-  productId: number;
-  price: number;
-}
-
-function BottomBar({ isSeller, productId, price }: BottomBarProps) {
-  return (
-    <div className={styles.bottomBar}>
-      <p className={styles.price}>{`${price} 원`}</p>
-      <BottomActions isSeller={isSeller} productId={productId} />
-      <IconButton
-        onClick={() => {}}
-        label={isSeller ? '댓글 목록' : '댓글 달기'}
-        styleType="secondary"
-      />
-    </div>
-  );
-}
-
-interface BottomActionsProps {
-  isSeller: boolean;
-  productId: number;
-}
-
-function BottomActions({ isSeller, productId }: BottomActionsProps) {
-  if (isSeller) {
-    return (
-      <>
-        <IconButton onClick={() => {}} label="판매 완료" />
-        <IconButton onClick={() => {}} label="예약" />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <IconButton onClick={() => {}} label="찜" />
-      <IconButton onClick={() => {}} label="가상 피팅" />
     </>
   );
 }
