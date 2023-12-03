@@ -72,3 +72,15 @@ export function useInfiniteScroll<T>(
 
   return { page, loading, setPage, setLoading, result };
 }
+
+export function statusToStr(status?: ProductState) {
+  switch (status) {
+    case 'SELL':
+      return '판매중';
+    case 'RESERVE':
+      return '예약중';
+    case 'COMP':
+      return '판매완료';
+  }
+  return '';
+}

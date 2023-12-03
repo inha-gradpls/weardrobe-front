@@ -46,13 +46,15 @@ interface ProductInfo {
   deliveryAvailable?: boolean;
   productImage: string;
   description?: string;
-  status?: 'SELL' | 'BUY';
+  status?: ProductState;
   favorite?: boolean;
   createdDate: string;
   viewCount: number;
   heartCount: number;
   commentCount: number;
 }
+
+type ProductState = 'SELL' | 'RESERVE' | 'COMP';
 
 type ProductInfoResponse = ProductInfo;
 

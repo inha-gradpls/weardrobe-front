@@ -80,6 +80,7 @@ export default function SearchPage() {
         {result.map((v) => (
           <ProductCard
             onClick={() => router.push(`/products/${v.id}`)}
+            status={v.status}
             key={v.id}
             id={v.id}
             name={v.name}

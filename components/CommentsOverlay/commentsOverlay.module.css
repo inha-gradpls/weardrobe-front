@@ -39,7 +39,23 @@
   justify-content: center;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .date {
   font-size: 13px;
   color: grey;
+}
+
+.badge {
+  background-color: var(--accent-light);
+  font-size: 12px;
+  padding: 5px;
+  text-align: center;
 }

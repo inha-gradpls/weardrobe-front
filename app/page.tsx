@@ -66,6 +66,7 @@ export default function Home() {
           {result.map((v) => (
             <ProductCard
               key={v.id}
+              status={v.status}
               id={v.id}
               name={v.name}
               img={`${API_BASE_URL}${v.productImage}`}

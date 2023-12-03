@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import styles from './productCard.module.css';
 import { BLUR_URL } from '@/utils/api';
-import { getImageUrl } from '@/utils/uiHelper';
+import { getImageUrl, statusToStr } from '@/utils/uiHelper';
 interface ProductCardProps {
   id: number;
   img?: string;
@@ -12,6 +12,7 @@ interface ProductCardProps {
   viewCount: number;
   likeCount: number;
   commentCount: number;
+  status?: ProductState;
   onClick?: () => void;
 }
 export default function ProductCard({
@@ -24,6 +25,7 @@ export default function ProductCard({
   likeCount,
   commentCount,
   onClick,
+  status,
 }: ProductCardProps) {
   return (
     <div className={styles.container} onClick={onClick}>
@@ -47,6 +49,7 @@ export default function ProductCard({
           <p>{likeCount}</p>
           <span className={`material-symbols-outlined ${styles.icon}`}>sms</span>
           <p>{commentCount}</p>
+          <p>{statusToStr(status)}</p>
         </div>
       </div>
     </div>

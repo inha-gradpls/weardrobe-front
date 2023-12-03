@@ -8,14 +8,15 @@ import { dateToStr, useInfiniteScroll } from '@/utils/uiHelper';
 import UserCard from '../UserCard';
 import Input from '../Input';
 import IconButton from '../Button/IconButton';
+import { useUser } from '@/states/user';
 
 interface CommentsOverlayProps {
-  isSeller: boolean;
+  sellerId: number;
   id: number;
   onClose: () => void;
 }
 
-export default function CommentsOverlay({ onClose, id, isSeller }: CommentsOverlayProps) {
+export default function CommentsOverlay({ onClose, id, sellerId }: CommentsOverlayProps) {
   const lastItemRef = useRef<HTMLDivElement>(null);
   const [submit, setSubmit] = useState<boolean>(false);
 
@@ -39,6 +40,7 @@ export default function CommentsOverlay({ onClose, id, isSeller }: CommentsOverl
           <div className={styles.items}>
             {result.map((v) => (
               <Comment
+                sellerId={sellerId}
                 key={v.id}
                 userId={v.userId}
                 content={v.content}
@@ -91,6 +93,7 @@ export default function CommentsOverlay({ onClose, id, isSeller }: CommentsOverl
 }
 
 interface CommentProps {
+  sellerId: number;
   createdDate: string;
   userId: number;
   content: string;
@@ -98,11 +101,14 @@ interface CommentProps {
   nickname: string;
 }
 
-function Comment({ userId, content, userImage, nickname, createdDate }: CommentProps) {
+function Comment({ userId, content, userImage, nickname, createdDate, sellerId }: CommentProps) {
   return (
     <div className={styles.comment}>
       <p className={styles.date}>{dateToStr(createdDate)}</p>
-      <UserCard userId={userId} nickname={nickname} profilePic={userImage} />
+      <div className={styles.row}>
+        <UserCard userId={userId} nickname={nickname} profilePic={userImage} />
+        {sellerId === userId && <p className={styles.badge}>판매자</p>}
+      </div>
       <p>{content}</p>
     </div>
   );
