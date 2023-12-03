@@ -79,7 +79,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <h3>{productInfo.name}</h3>
               <UserCard userId={productInfo.sellerId ?? 0} />
               <div className={styles.infoContainer}>
-                <p>{tsToDeltaStr(productInfo.createDate)}</p>
+                <p>{tsToDeltaStr(productInfo.createdDate)}</p>
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>visibility</span>
                 <p>{productInfo.viewCount}</p>
                 <span className={`material-symbols-outlined ${styles.infoIcon}`}>favorite</span>
