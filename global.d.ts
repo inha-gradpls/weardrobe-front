@@ -127,3 +127,8 @@ interface UserHistory {
   createdDate: string;
   history: UserHistoryType;
 }
+
+interface RegisterImageResponse {
+  id: number;
+  type: string;
+}

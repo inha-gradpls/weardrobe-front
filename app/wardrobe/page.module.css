@@ -32,6 +32,13 @@
   flex-direction: column;
 }
 
+.carouselHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .carouselItems {
   display: flex;
   flex-direction: row;
