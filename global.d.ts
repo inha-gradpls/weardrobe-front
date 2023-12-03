@@ -47,7 +47,8 @@ interface ProductInfo {
   productImage: string;
   description?: string;
   status?: 'SELL' | 'BUY';
-  createDate: string;
+  favorite?: boolean;
+  createdDate: string;
   viewCount: number;
   heartCount: number;
   commentCount: number;
@@ -115,4 +116,14 @@ interface ProductFormData {
 
 interface RegisterProductResponse {
   id: number;
+}
+
+type UserHistoryType = 'sell' | 'buy' | 'favorite';
+interface UserHistory {
+  id: number;
+  name: string;
+  price: number;
+  productImage: string;
+  createdDate: string;
+  history: UserHistoryType;
 }
