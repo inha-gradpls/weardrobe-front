@@ -41,8 +41,6 @@ export default function UserPage({ params }: UserPageProps) {
               <p className={styles.text}>{data.nickname}</p>
               <p className={styles.label}>가입일</p>
               <p className={styles.text}>{dateToStr(data.createdDate ?? '')}</p>
-              <p className={styles.label}>평점</p>
-              <p className={styles.text}>{data.reliableScore}</p>
             </div>
           </>
         )}
