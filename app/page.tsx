@@ -72,8 +72,8 @@ export default function Home() {
               category={v.categoryName}
               price={v.price}
               viewCount={v.viewCount}
-              likeCount={0}
-              commentCount={0}
+              likeCount={v.heartCount}
+              commentCount={v.commentCount}
               onClick={() => router.push(`/products/${v.id}`)}
             />
           ))}
