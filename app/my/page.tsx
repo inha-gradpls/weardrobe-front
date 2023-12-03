@@ -111,6 +111,7 @@ function ProductsTab() {
           id={v.id}
           name={v.name}
           category={v.categoryName}
+          img={v.productImage}
           price={v.price}
           viewCount={v.viewCount}
           likeCount={v.heartCount}
