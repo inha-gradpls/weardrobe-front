@@ -64,7 +64,7 @@ export default function WardrobePage() {
             <Carousel
               selected={user}
               setSelected={setUser}
-              category="사람"
+              category="인물"
               items={data.wardrobeUser}
             />
             <Carousel
