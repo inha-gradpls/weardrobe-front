@@ -86,11 +86,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div className={`innerContent ${styles.container}`}>
             <div className={styles.photo}>
               <Image
-                quality={100}
                 src={getImageUrl(productInfo.productImage)}
                 alt=""
-                width={0}
-                height={0}
+                width={100}
+                height={100}
+                sizes="100vw"
                 style={{
                   width: '100%',
                   height: 'auto',

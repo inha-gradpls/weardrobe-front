@@ -67,7 +67,7 @@ export default function RegisterImageOverlay({ onClose }: RegisterImageOverlayPr
           {!loading && (
             <>
               <p>이미지</p>
-              <Input name="image" type="file" accept="image/jpeg,image/jpg" />
+              <Input name="image" type="file" accept="image/jpeg" />
               <input type="hidden" defaultValue="user" name="type" />
             </>
           )}

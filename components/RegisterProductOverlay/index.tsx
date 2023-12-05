@@ -90,7 +90,7 @@ export default function RegisterProductOverlay({ onClose }: RegisterProductOverl
               <p>상세 설명</p>
               <Input name="description" type="textArea" />
               <p>제품 이미지</p>
-              <Input name="productImage" type="file" accept="image/png" />
+              <Input name="productImage" type="file" accept="image/jpeg" />
             </>
           )}
         </div>
