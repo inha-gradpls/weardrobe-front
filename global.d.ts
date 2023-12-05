@@ -29,7 +29,6 @@ interface UserInfo {
   gender?: string;
   createdDate?: string;
   phoneNumber?: string;
-  reliableScore: number;
 }
 
 type UserInfoResponse = UserInfo;
