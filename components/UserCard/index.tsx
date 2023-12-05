@@ -28,7 +28,6 @@ export default function UserCard({ userId, nickname, profilePic, large = false }
         id: userId,
         nickname: nickname,
         imageUrl: profilePic,
-        reliableScore: -1,
       });
     }
   }, [nickname, profilePic, userId]);
