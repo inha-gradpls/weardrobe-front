@@ -26,7 +26,7 @@ interface UserInfo {
   nickname: string;
   imageUrl: string;
   age?: number;
-  gender?: string;
+  gender?: 'M' | 'F';
   createdDate?: string;
   phoneNumber?: string;
 }
