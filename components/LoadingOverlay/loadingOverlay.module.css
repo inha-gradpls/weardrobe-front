@@ -1,0 +1,27 @@
+.container {
+  position: fixed;
+  background-color: #00000031;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.content {
+  overflow: hidden;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 20px;
+  min-height: 10%;
+  width: 100%;
+  padding: 30px;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
