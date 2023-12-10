@@ -8,6 +8,7 @@ import IconButton from '@/components/Button/IconButton';
 import { getImageUrl } from '@/utils/uiHelper';
 import { createPortal } from 'react-dom';
 import RegisterImageOverlay from '@/components/RegisterImageOverlay';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 export default function WardrobePage() {
   const [data, setData] = useState<WardrobeData>();
@@ -32,6 +33,7 @@ export default function WardrobePage() {
 
   const generateResult = async () => {
     if (user === undefined || cloth === undefined) {
+      alert('함성할 인물과 상품을 선택해 주세요!');
       setLoading(false);
       return;
     }
@@ -109,6 +111,7 @@ export default function WardrobePage() {
           />,
           document.body,
         )}
+      {loading && createPortal(<LoadingOverlay text={'이미지를 생성중입니다..'} />, document.body)}
     </>
   );
 }

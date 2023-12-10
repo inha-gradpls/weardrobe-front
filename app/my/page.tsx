@@ -42,7 +42,14 @@ export default function MyPage() {
               large={true}
             />
             <Tab labels={['프로필', '내 상품', '활동']}>
-              <ProfileTab nickname={userInfo.nickname} createdDate={userInfo.createdDate} />
+              <ProfileTab
+                nickname={userInfo.nickname}
+                createdDate={userInfo.createdDate}
+                age={userInfo.age}
+                name={userInfo.name}
+                gender={userInfo.gender}
+                phoneNumber={userInfo.phoneNumber}
+              />
               <ProductsTab />
               <HistoryTab />
             </Tab>
@@ -82,16 +89,28 @@ function Tab({ children, labels }: TabProps) {
 
 interface ProfileTabProps {
   nickname: string;
-  createdDate?: string;
+  createdDate: string | undefined;
+  gender: 'M' | 'F' | undefined;
+  name: string | undefined;
+  age: number | undefined;
+  phoneNumber: string | undefined;
 }
 
-function ProfileTab({ nickname, createdDate }: ProfileTabProps) {
+function ProfileTab({ nickname, createdDate, name, age, phoneNumber, gender }: ProfileTabProps) {
   return (
     <>
+      <p className={styles.label}>이름</p>
+      <p className={styles.text}>{name}</p>
+      <p className={styles.label}>나이</p>
+      <p className={styles.text}>{age}</p>
       <p className={styles.label}>닉네임</p>
       <p className={styles.text}>{nickname}</p>
       <p className={styles.label}>가입일</p>
       <p className={styles.text}>{dateToStr(createdDate ?? '')}</p>
+      <p className={styles.label}>전화번호</p>
+      <p className={styles.text}>{phoneNumber}</p>
+      <p className={styles.label}>성별</p>
+      <p className={styles.text}>{gender === 'M' ? '남성' : '여성'}</p>
     </>
   );
 }
