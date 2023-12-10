@@ -41,7 +41,12 @@ export default function WardrobePage() {
       wardrobeUserId: user,
       favoriteProductId: cloth,
     });
-    if (res === undefined) return;
+    if (res === undefined) {
+      //error message
+      setLoading(false);
+      alert('이미지 생성에 실패했습니다! 인물 사진을 확인해 주세요');
+      return;
+    }
     setResult(res.vitonImage);
     setLoading(false);
   };

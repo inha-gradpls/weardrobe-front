@@ -10,6 +10,7 @@ import ProductCard from '@/components/ProductCard';
 import UserHistoryItem from '@/components/UserHistoryItem';
 import IconButton from '@/components/Button/IconButton';
 import { useRouter } from 'next/navigation';
+
 export default function MyPage() {
   const { userInfo, setUserInfo } = useUser((state) => ({
     userInfo: state.userInfo,
@@ -90,7 +91,7 @@ function Tab({ children, labels }: TabProps) {
 interface ProfileTabProps {
   nickname: string;
   createdDate: string | undefined;
-  gender: 'M' | 'F' | undefined;
+  gender: 'MALE' | 'FEMALE' | undefined;
   name: string | undefined;
   age: number | undefined;
   phoneNumber: string | undefined;
@@ -110,7 +111,7 @@ function ProfileTab({ nickname, createdDate, name, age, phoneNumber, gender }: P
       <p className={styles.label}>전화번호</p>
       <p className={styles.text}>{phoneNumber}</p>
       <p className={styles.label}>성별</p>
-      <p className={styles.text}>{gender === 'M' ? '남성' : '여성'}</p>
+      <p className={styles.text}>{gender === 'MALE' ? '남성' : '여성'}</p>
     </>
   );
 }
