@@ -15,14 +15,16 @@ export default function LoginPage() {
   return (
     <>
       <div className={styles.container}>
-        <Link href={`${API_BASE_URL}/oauth2/authorization/kakao`}>
+        <Link href={`${API_BASE_URL}/oauth2/authorization/kakao`} style={{ width: '100%' }}>
           <Image
             src={'/kakao_login.png'}
             alt="카카오 로그인"
             width={0}
-            height={40}
+            height={0}
             sizes="100vw"
             style={{
+              height: 'auto',
+              maxHeight: '50px',
               width: '100%',
               objectFit: 'contain',
             }}
